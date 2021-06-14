@@ -4,10 +4,10 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 // file system module
 const fs = require("fs");
-const prefix = "-";
-
 // dotenv file
 require("dotenv").config({ path: ".env" });
+const prefix = process.env.PREFIX;
+console.log(prefix);
 
 // finding commands
 client.commands = new Discord.Collection();
