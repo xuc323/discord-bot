@@ -2,10 +2,19 @@
 const Discord = require("discord.js");
 // create an instance of a discord client
 const client = new Discord.Client();
+// file system module
+const fs = require("fs");
 const prefix = "-";
 
 // dotenv file
 require("dotenv").config({ path: ".env" });
+
+client.commands = new Discord.Collection();
+const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+}
 
 client.once("ready", function () {
     console.log("Bot is online!");
@@ -26,17 +35,22 @@ client.on("message", function (message) {
     if (!message.content.startsWith(prefix) || message.author.bot) {
         return;
     }
-    const args = message.content.slice(prefix.length).split(" ");
-    const command = args.shift().toLowerCase();
 
-    if (command == "ping") {
-        message.reply("pong!");
-    } else if (command == "hello") {
-        message.reply("hi");
-    } else if (command == "help") {
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const commandName = args.shift().toLowerCase();
 
-    } else {
+    if (!client.commands.has(commandName)) {
         message.reply("Unknown command: " + message.content + ". Type `-help` for more information.");
+        return;
+    }
+
+    const command = client.commands.get(commandName);
+
+    try {
+        command.execute(message, args);
+    } catch (error) {
+        console.error(error);
+        message.reply("There was an error trying to execute that command..");
     }
 });
 
