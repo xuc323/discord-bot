@@ -14,7 +14,7 @@ client.on("ready", function () {
 // create an event listener for new guild members
 client.on("guildMemberAdd", function (mem) {
     // assign new members as "member" role
-    const role = mem.guild.roles.cache.find(role => role.name === "member");
+    const role = mem.guild.roles.cache.find(ro => ro.name === "member");
     mem.roles.add(role);
     // send the message to "welcome" channel
     mem.guild.channels.cache.find(ch => ch.name === "welcome").send(`Welcome ${mem}, your are now the member of this server!`);
