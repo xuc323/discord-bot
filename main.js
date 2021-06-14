@@ -28,8 +28,3 @@ client.on("message", function (message) {
 
 // log in using token
 client.login(process.env.DISCORD_TOKEN);
-
-/*
-bot invitation link:
-https://discord.com/oauth2/authorize?client_id=853751983683928114&scope=bot+applications.commands
-*/
