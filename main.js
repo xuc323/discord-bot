@@ -49,7 +49,7 @@ client.on("message", (message) => {
 
     // if unknown command
     if (!command) {
-        return message.reply(`Unknown command: \`${message.content}\`. Type \`!help\` for more information.`);
+        return message.reply(`Unknown command: \`${message.content}\`. Type \`${prefix}help\` for more information.`);
     }
 
     // if command needs argument but there's none

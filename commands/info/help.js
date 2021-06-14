@@ -27,9 +27,9 @@ module.exports = {
                 data.push(`**Description:** ${command.description}`);
             }
             if (command.usage) {
-                data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+                data.push(`**Usage:** \`${prefix}${command.name} ${command.usage}\``);
             } else {
-                data.push(`**Usage:** ${prefix}${command.name}`);
+                data.push(`**Usage:** \`${prefix}${command.name}\``);
             }
             message.reply(data, { split: true });
         }
