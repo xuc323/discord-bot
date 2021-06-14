@@ -7,7 +7,7 @@ const prefix = "-";
 // dotenv file
 require("dotenv").config({ path: ".env" });
 
-client.on("ready", function () {
+client.once("ready", function () {
     console.log("Bot is online!");
 });
 
@@ -17,7 +17,7 @@ client.on("guildMemberAdd", function (mem) {
     const role = mem.guild.roles.cache.find(ro => ro.name === "member");
     mem.roles.add(role);
     // send the message to "welcome" channel
-    mem.guild.channels.cache.find(ch => ch.name === "welcome").send(`Welcome ${mem}, your are now the member of this server!`);
+    mem.guild.channels.cache.find(ch => ch.name === "welcome").send(`Welcome ${mem}, now you have the member role of this server!`);
 });
 
 // create an event listener for messages
@@ -31,8 +31,12 @@ client.on("message", function (message) {
 
     if (command == "ping") {
         message.reply("pong!");
+    } else if (command == "hello") {
+        message.reply("hi");
+    } else if (command == "help") {
+
     } else {
-        message.reply("Unknown command: " + message.content);
+        message.reply("Unknown command: " + message.content + ". Type `-help` for more information.");
     }
 });
 
