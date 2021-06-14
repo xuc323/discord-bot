@@ -7,7 +7,6 @@ const fs = require("fs");
 // dotenv file
 require("dotenv").config({ path: ".env" });
 const prefix = process.env.PREFIX;
-console.log(prefix);
 
 // finding commands
 client.commands = new Discord.Collection();
@@ -35,17 +34,17 @@ client.on("guildMemberAdd", function (mem) {
 
 // create an event listener for messages
 client.on("message", function (message) {
-    // bot will not respond to message without prefix "-" or message from itself
+    // bot will not respond to message without prefix "!" or message from itself
     if (!message.content.startsWith(prefix) || message.author.bot) {
         return;
     }
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
-    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases.includes(commandName));
+    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
     if (!command) {
-        return message.reply("Unknown command: " + message.content + ". Type `-help` for more information.");
+        return message.reply(`Unknown command: \`${message.content}\`. Type \`!help\` for more information.`);
     }
 
     if (command.args && !args.length) {
