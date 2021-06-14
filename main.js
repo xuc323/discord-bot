@@ -9,11 +9,15 @@ const prefix = "-";
 // dotenv file
 require("dotenv").config({ path: ".env" });
 
+// finding commands
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
-for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
-    client.commands.set(command.name, command);
+const commandFolders = fs.readdirSync("./commands");
+for (const folder of commandFolders) {
+    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith(".js"));
+    for (const file of commandFiles) {
+        const command = require(`./commands/${folder}/${file}`);
+        client.commands.set(command.name, command);
+    }
 }
 
 client.once("ready", function () {
@@ -38,13 +42,19 @@ client.on("message", function (message) {
 
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
+    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases.includes(commandName));
 
-    if (!client.commands.has(commandName)) {
-        message.reply("Unknown command: " + message.content + ". Type `-help` for more information.");
-        return;
+    if (!command) {
+        return message.reply("Unknown command: " + message.content + ". Type `-help` for more information.");
     }
 
-    const command = client.commands.get(commandName);
+    if (command.args && !args.length) {
+        let reply = message.reply("You did not provide any arguments.");
+        if (command.usage) {
+            reply += `\nThe proper usage is: \`${prefix}${command.name} ${command.usage}\``;
+        }
+        return message.reply(reply);
+    }
 
     try {
         command.execute(message, args);
