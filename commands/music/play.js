@@ -9,7 +9,7 @@ module.exports = {
     execute(message, args) {
         const voiceChannel = message.member.voice.channel
         if (!voiceChannel) {
-            message.reply("Seems that you are not in any voice channel. Join one and try again!");
+            message.reply("Seems that you are not in one of the voice channels. Join one and try again!");
         } else {
             voiceChannel.join().then((connection => {
                 const stream = ytdl(args, { filter: "audioonly" });

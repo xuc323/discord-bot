@@ -23,7 +23,7 @@ module.exports = {
 
         // if command needs argument but there's none
         if (command.args && !args.length) {
-            let reply = message.reply("You did not provide any arguments.");
+            let reply = "\nYou did not provide any arguments.";
             if (command.usage) {
                 reply += `\nThe proper usage is: \`${prefix}${command.name} ${command.usage}\``;
             }
