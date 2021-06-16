@@ -1,6 +1,8 @@
+const prefix = process.env.PREFIX;
+
 module.exports = {
     name: "message",
-    execute(message, client, prefix) {
+    execute(message, client) {
         // bot will not respond to message without prefix "!" or message from itself
         if (!message.content.startsWith(prefix) || message.author.bot) {
             return;
@@ -21,7 +23,7 @@ module.exports = {
 
         // if command needs argument but there's none
         if (command.args && !args.length) {
-            let reply = message.reply("You did not provide any arguments.");
+            let reply = "\nYou did not provide any arguments.";
             if (command.usage) {
                 reply += `\nThe proper usage is: \`${prefix}${command.name} ${command.usage}\``;
             }
@@ -30,7 +32,7 @@ module.exports = {
 
         // execute command
         try {
-            command.execute(message, args, prefix, client);
+            command.execute(message, args, client);
         } catch (error) {
             console.error(error);
             message.reply("There was an error trying to execute that command..");
