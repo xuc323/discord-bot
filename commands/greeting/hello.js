@@ -4,6 +4,6 @@ module.exports = {
     args: false,
     aliases: ["hi"],
     execute(message, args) {
-        message.reply("Hi!");
+        message.channel.send("Hi!");
     }
 }

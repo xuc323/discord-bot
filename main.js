@@ -6,7 +6,19 @@ const client = new Discord.Client();
 const fs = require("fs");
 // dotenv file
 require("dotenv").config({ path: ".env" });
-// const prefix = process.env.PREFIX;
+// music player
+const { Player } = require("discord-music-player");
+const player = new Player(client, {
+    leaveOnEmpty: true,
+    leaveOnEnd: true,
+    leaveOnStop: false,
+    timeout: 0,
+    volume: 150,
+    quality: "high"
+});
+
+// client now has player attribute
+client.player = player;
 
 // finding events
 const eventFiles = fs.readdirSync("./events").filter((file) => file.endsWith(".js"));
