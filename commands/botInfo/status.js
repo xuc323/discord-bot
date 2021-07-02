@@ -26,16 +26,15 @@ module.exports = {
         }
 
         if (type === undefined) {
-            type = "PLAYING";
+            client.user.setActivity(args.join(" "));
         } else {
             args.shift();
+            client.user.setPresence({
+                activity: {
+                    name: args.join(" "),
+                    type: type
+                }
+            });
         }
-
-        client.user.setPresence({
-            activity: {
-                name: args.join(" "),
-                type: type
-            }
-        });
     }
 }
