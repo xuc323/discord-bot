@@ -4,7 +4,7 @@ module.exports = {
     args: false,
     execute(message, args, client) {
         let ping = client.ws.ping;
-        message.reply("Pinging...").then((sent) => {
+        message.channel.send("Pinging...").then((sent) => {
             sent.edit(`Websocket heartbeat: ${ping}ms.\nRoundtrip latency: ${sent.createdTimestamp - message.createdTimestamp}ms.`);
         });
     }

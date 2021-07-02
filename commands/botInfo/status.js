@@ -6,7 +6,7 @@ module.exports = {
         client.user.setPresence({
             activity: {
                 name: args.join(" "),
-                type: 0
+                type: "LISTENING"
             }
         });
     }
