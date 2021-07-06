@@ -3,16 +3,15 @@ const prefix = process.env.PREFIX;
 module.exports = {
     name: "help",
     description: "List all commands or info about a specific command.",
-    aliases: ["commands"],
     usage: "[command name]",
     execute(message, args) {
         const data = [];
         const { commands } = message.client;
         if (!args.length) {
-            data.push("Here's a list of all commands: ");
-            data.push(commands.map(command => command.name).join(", "));
+            data.push("Supported commands:\n");
+            data.push(commands.map(command => `**${command.name}** ${command.description}`).join("\n"));
             data.push(`\nYou can send\`${prefix}help [command name]\` to get info on a specific command.`);
-            return message.channel.send(data, { split: true });
+            message.channel.send(data, { split: true });
         } else {
             const name = args[0].toLowerCase();
             const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
