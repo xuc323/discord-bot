@@ -1,10 +1,12 @@
+const channelId = "853793532627648512";
+const ruleId = "862098688935067658";
+
 module.exports = {
     name: "guildMemberAdd",
-    execute(member) {
-        // assign new members as "member" role
-        const role = member.guild.roles.cache.get("853821008682811392");
-        member.roles.add(role);
+    execute(member, client) {
+        // fins the rule channel
+        const ruleChannel = member.guild.channels.cache.get(ruleId);
         // send the message to "welcome" channel
-        member.guild.channels.cache.get("853793532627648512").send(`Welcome ${member}, now you have the \`${role.name}\` role of this server!`);
+        member.guild.channels.cache.get(channelId).send(`Welcome ${member}, please check and agree to the rules in ${ruleChannel}`);
     }
 }
