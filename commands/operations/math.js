@@ -1,6 +1,6 @@
 module.exports = {
     name: "math",
-    description: "Perform math calculation.",
+    description: "Perform math calculation. (+-*/%^)",
     args: true,
     usage: "[num1] [operator] [num2]",
     execute(message, args) {
@@ -22,6 +22,12 @@ module.exports = {
                 break;
             case "/":
                 message.channel.send(`${args[0]} / ${args[2]} = ${parseFloat(args[0]) / parseFloat(args[2])}`);
+                break;
+            case "%":
+                message.channel.send(`${args[0]} % ${args[2]} = ${parseFloat(args[0]) % parseFloat(args[2])}`);
+                break;
+            case "^":
+                message.channel.send(`${args[0]} ^ ${args[2]} = ${Math.pow(parseFloat(args[0]), parseFloat(args[2]))}`);
                 break;
             default:
                 message.channel.send("Unknown operator.");
