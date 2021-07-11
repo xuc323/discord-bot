@@ -35,7 +35,7 @@ module.exports = {
             command.execute(message, args, client);
         } catch (error) {
             console.error(error);
-            message.channel.channel.send("There was an error trying to execute that command..");
+            message.channel.send("There was an error trying to execute that command..");
         }
     }
 }
