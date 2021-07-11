@@ -6,7 +6,7 @@ module.exports = {
     execute(message, args, client) {
         const song = client.player.resume(message);
         if (song) {
-            message.channel.send(`**${song.name}** was skipped!`);
+            message.channel.send(`**${song.name}** was resumed!`);
         }
     }
 }
