@@ -3,11 +3,10 @@ module.exports = {
     description: "Stop the music and leave the voice channel",
     aliases: ["s"],
     args: false,
-    execute(message, args) {
-        const voiceChannel = message.member.voice.channel;
-        if (!voiceChannel) {
-        } else {
-            voiceChannel.leave();
+    execute(message, args, client) {
+        const isDone = client.player.stop(message);
+        if (isDone) {
+            message.channel.send("Music stopped, the Queue was cleared!");
         }
     }
 }
