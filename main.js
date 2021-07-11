@@ -13,7 +13,7 @@ const player = new Player(client, {
     leaveOnEnd: true,
     leaveOnStop: false,
     timeout: 0,
-    volume: 150,
+    volume: 100,
     quality: "high"
 });
 
@@ -33,12 +33,19 @@ for (const file of eventFiles) {
     }
 }
 
-// finding commands
+// music player events
+const musicEventFiles = fs.readdirSync("./music-events").filter((file) => file.endsWith(".js"));
+for (const file of musicEventFiles) {
+    const event = require(`./music-events/${file}`);
+    client.player.on(event.name, (...args) => event.execute(...args));
+}
+
+// register commands
 client.commands = new Discord.Collection();
 const commandFolders = fs.readdirSync("./commands");
 // loop through all folders in commands
 for (const folder of commandFolders) {
-    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith(".js"));
+    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter((file) => file.endsWith(".js"));
     // loop through all .js files
     for (const file of commandFiles) {
         const command = require(`./commands/${folder}/${file}`);
