@@ -3,6 +3,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
     name: "queue",
     description: "Display the server queue",
+    aliases: ["q"],
     args: false,
     execute(message, args, client) {
         const queue = client.player.getQueue(message);
