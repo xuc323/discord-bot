@@ -1,6 +1,7 @@
 module.exports = {
-    name: "skip",
-    description: "Skip the current song.",
+    name: "next",
+    description: "Skip the next song.",
+    aliases: ["n"],
     args: false,
     execute(message, args, client) {
         const song = client.player.skip(message);
