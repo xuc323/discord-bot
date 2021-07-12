@@ -5,7 +5,7 @@ module.exports = {
     args: false,
     execute(message, args, client) {
         const bar = client.player.createProgressBar(message, {
-            size: 15,
+            size: 10,
             block: "=",
             arrow: ">"
         });
