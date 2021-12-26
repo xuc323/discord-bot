@@ -4,23 +4,22 @@ module.exports = {
     name: "server",
     description: "Display server info.",
     args: false,
-    execute(message, args) {
-        const { name, region, memberCount, createdAt } = message.guild;
+    execute(message, args, client) {
+        const { name, memberCount, createdAt } = message.guild;
         const icon = message.guild.iconURL();
-        const emb = new MessageEmbed().setTitle(`Server info for \`${name}\``).setThumbnail(icon).addFields(
-            {
-                name: "Members ",
-                value: memberCount
-            },
-            {
-                name: "Region ",
-                value: region
-            },
-            {
-                name: "Created at ",
-                value: createdAt
-            }
-        );
-        message.channel.send(emb);
+        const emb = new MessageEmbed()
+            .setTitle(`Server info for \`${name}\``)
+            .setThumbnail(icon)
+            .addFields(
+                [{
+                    name: "Members ",
+                    value: memberCount.toString()
+                },
+                {
+                    name: "Created at ",
+                    value: createdAt.toString()
+                }]
+            );
+        message.channel.send({ embeds: [emb] });
     }
 }

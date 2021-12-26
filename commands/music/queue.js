@@ -5,22 +5,21 @@ module.exports = {
     description: "Display the server queue",
     aliases: ["q"],
     args: false,
-    execute(message, args, client) {
-        const queue = client.player.getQueue(message);
-        const emb = new MessageEmbed().setTitle("Queue");
-        if (queue) {
-            for (let i = 0; i < queue.songs.length; i++) {
-                const song = queue.songs[i];
+    execute(message, args, client, guildQueue) {
+        const emb = new MessageEmbed().setTitle(`Queue for ${message.guild.name}`);
+        if (guildQueue) {
+            for (let i = 0; i < guildQueue.songs.length; i++) {
+                const song = guildQueue.songs[i];
                 if (i === 0) {
-                    emb.addField("Now Playing", `${song.name}\n${song.author}\nRequested by: ${song.requestedBy}`);
+                    emb.setThumbnail(song.thumbnail).addField("Now Playing", `${song.name}\n${song.author}\n${song.url}\nRequested by: ${song.requestedBy}`);
                 } else {
-                    emb.addField(`#${i + 1}`, `${song.name}\n${song.author}\nRequested by: ${song.requestedBy}`);
+                    emb.addField(`#${i + 1}`, `${song.name}\n${song.author}\n${song.url}\nRequested by: ${song.requestedBy}`);
                 }
             }
-            emb.setFooter(`Count: ${queue.songs.length}`);
+            emb.setFooter(`Count: ${guildQueue.songs.length}`);
         } else {
             emb.setFooter("Queue is empty.")
         }
-        message.channel.send(emb);
+        message.channel.send({ embeds: [emb] });
     }
 }
