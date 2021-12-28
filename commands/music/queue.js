@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: "queue",
-    description: "Display the server queue",
+    description: "List all songs in the queue.",
     aliases: ["q"],
     args: false,
     execute(message, args, client, guildQueue) {

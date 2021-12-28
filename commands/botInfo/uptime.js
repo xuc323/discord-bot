@@ -4,6 +4,7 @@ module.exports = {
     args: false,
     aliases: ["up"],
     execute(message, args, client) {
+        // calculate how long the bot has been up
         let str = [];
         let duration = client.uptime;
 
