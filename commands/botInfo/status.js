@@ -1,6 +1,6 @@
 module.exports = {
     name: "status",
-    description: "Set the status of the bot",
+    description: "Set the activity of the bot.",
     args: true,
     usage: "[status number] [status]",
     execute(message, args, client) {
@@ -26,15 +26,12 @@ module.exports = {
         }
 
         if (type === undefined) {
+            // default type is PLAYING
             client.user.setActivity(args.join(" "));
         } else {
+            // set the activity with the indicated type
             args.shift();
-            client.user.setPresence({
-                activity: {
-                    name: args.join(" "),
-                    type: type
-                }
-            });
+            client.user.setActivity(args.join(" "), { type: type });
         }
     }
 }

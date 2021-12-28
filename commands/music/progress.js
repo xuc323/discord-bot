@@ -4,9 +4,13 @@ module.exports = {
     aliases: ["prog"],
     args: false,
     execute(message, args, client, guildQueue) {
-        const bar = guildQueue.createProgressBar();
-        if (bar) {
-            message.channel.send(bar.prettier);
+        if (guildQueue) {
+            const bar = guildQueue.createProgressBar();
+            if (bar) {
+                message.channel.send(bar.prettier);
+            }
+        } else {
+            message.channel.send("ERROR: Queue is empty, can't perform \`progress\`.")
         }
     }
 }
