@@ -1,6 +1,8 @@
 module.exports = {
     name: "songFirst",
     execute(queue, song) {
-        console.log(`[${queue.guild.name} | ${queue.guild.id} | ${song.requestedBy}]: Started playing ${song}.`);
+        // retrive the initial message channel from the queue
+        const channel = queue.data.msgChannel;
+        channel.send(`Started playing **${song}**.`);
     }
 }

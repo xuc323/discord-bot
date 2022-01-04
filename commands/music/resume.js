@@ -5,10 +5,14 @@ module.exports = {
     args: false,
     execute(message, args, client, guildQueue) {
         if (guildQueue) {
-            guildQueue.setPaused(false);
-            message.channel.send("The queue is now resumed!");
+            const status = guildQueue.setPaused(false);
+            if (!status) {
+                message.channel.send("The queue is now resumed!");
+            } else {
+                message.channel.send("ERROR: Failed to resume the queue.");
+            }
         } else {
-            message.channel.send("ERROR: Queue is empty, can't perform \`resume\`.")
+            message.channel.send("ERROR: Queue is empty, can't perform \`resume\`.");
         }
     }
 }

@@ -1,6 +1,8 @@
 module.exports = {
     name: "channelEmpty",
     execute(queue) {
-        console.log(`[${queue.guild.name} | ${queue.guild.id}]: Everyone left the Voice Channel, queue ended.`);
+        // retrive the initial message channel from the queue
+        const channel = queue.data.msgChannel;
+        channel.send("Everyone left the Voice Channel, queue ended.");
     }
 }
