@@ -1,7 +1,9 @@
 module.exports = {
-    name: "pause",
-    description: "Pause the queue.",
-    args: false,
+    name: "volume",
+    description: "Adjust the volume of the music.",
+    aliases: ["v"],
+    args: true,
+    usage: "[volume number]",
     execute(message, args, client, guildQueue) {
         if (guildQueue) {
             // the queue exists
@@ -9,11 +11,12 @@ module.exports = {
             const channel = guildQueue.data.msgChannel;
             if (message.channel === channel) {
                 // the message is from the same channel the queue was created
-                const status = guildQueue.setPaused(true);
+                const vol = parseInt(args[0]);
+                const status = guildQueue.setVolume(vol);
                 if (status) {
-                    message.channel.send("The queue is now paused!");
+                    message.channel.send(`Volume set to ${vol}%.`);
                 } else {
-                    message.channel.send("ERROR: Failed to pause the queue.");
+                    message.channel.send("ERROR: Failed to set volume.");
                 }
             } else {
                 // the message is not from the same channel the queue was created
@@ -21,7 +24,7 @@ module.exports = {
             }
         } else {
             // the queue doesn't exist
-            message.channel.send("ERROR: Queue is empty, can't perform \`pause\`.");
+            message.channel.send("ERROR: Queue is empty, can't perform \`volume\`.");
         }
     }
 }

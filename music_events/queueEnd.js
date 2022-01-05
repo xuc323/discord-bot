@@ -1,6 +1,8 @@
 module.exports = {
     name: "queueEnd",
     execute(queue) {
-        console.log(`[${queue.guild.name} | ${queue.guild.id}]: The queue has ended.`);
+        // retrive the initial message channel from the queue
+        const channel = queue.data.msgChannel;
+        channel.send("The queue has ended.");
     }
 }
