@@ -17,18 +17,23 @@ module.exports = {
         });
 
         if (message.member.voice.channel) {
+            // the user is in any voice channel
             queue.join(message.member.voice.channel).then(() => {
-                queue.play(args.join(" "), {
-                    requestedBy: message.author.tag
-                }).then((song) => {
-                    // message.channel.send(`**${song.name}** has been added to the queue.\n${song.url}`);
-                }).catch(() => {
-                    if (!guildQueue) {
-                        queue.stop();
-                    }
-                });
-            });
+                if (message.channel === queue.data.msgChannel) {
+                    queue.play(args.join(" "), {
+                        requestedBy: message.author.tag
+                    }).catch(() => {
+                        if (!guildQueue) {
+                            queue.stop();
+                        }
+                    });
+                } else {
+                    // the message is not from the same channel the queue was created
+                    message.channel.send(`The queue was created in another text channel.\nPlease head to channel ${queue.data.msgChannel} for music commands.`);
+                }
+            }).catch(err => console.log(err));
         } else {
+            // the user is not in any voice channel
             message.channel.send("ERROR: Please join one of the voice channels before playing music.");
         }
     }
