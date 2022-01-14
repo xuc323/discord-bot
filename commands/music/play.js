@@ -16,25 +16,16 @@ module.exports = {
             }
         });
 
-        if (message.member.voice.channel) {
-            // the user is in any voice channel
-            queue.join(message.member.voice.channel).then(() => {
-                if (message.channel === queue.data.msgChannel) {
-                    queue.play(args.join(" "), {
-                        requestedBy: message.author.tag
-                    }).catch(() => {
-                        if (!guildQueue) {
-                            queue.stop();
-                        }
-                    });
-                } else {
-                    // the message is not from the same channel the queue was created
-                    message.channel.send(`The queue was created in another text channel.\nPlease head to channel ${queue.data.msgChannel} for music commands.`);
-                }
-            }).catch(err => console.log(err));
-        } else {
-            // the user is not in any voice channel
-            message.channel.send("ERROR: Please join one of the voice channels before playing music.");
-        }
+        queue.join(message.member.voice.channel).then(() => {
+            if (message.channel === queue.data.msgChannel) {
+                // the message is from the same channel the queue was created
+                queue.play(args.join(" "), {
+                    requestedBy: message.author.tag
+                }).catch(err => message.channel.send(err.message));
+            } else {
+                // the message is not from the same channel the queue was created
+                message.channel.send(`The queue was created in another text channel.\nPlease head to channel ${queue.data.msgChannel} for music commands.`);
+            }
+        }).catch(err => message.channel.send(err.message));
     }
 }
