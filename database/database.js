@@ -46,13 +46,13 @@ module.exports = {
             console.log("Database connection ended.");
         });
 
-        client.query(statement, (err, res) => {
-            if (err) {
-                console.log(err.stack);
-            } else {
-                // console.log(res);
-            }
-        });
+        // client.query(statement, (err, res) => {
+        //     if (err) {
+        //         console.log(err.stack);
+        //     } else {
+        //         // console.log(res);
+        //     }
+        // });
 
         return client;
     }
