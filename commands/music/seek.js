@@ -1,7 +1,8 @@
 module.exports = {
-    name: "pause",
-    description: "Pause the queue.",
-    args: false,
+    name: "seek",
+    description: "Fast forward the song.",
+    args: true,
+    usage: "[time in seconds]",
     execute(message, args, client, guildQueue) {
         if (guildQueue) {
             // the queue exists
@@ -9,11 +10,12 @@ module.exports = {
             const channel = guildQueue.data.msgChannel;
             if (message.channel === channel) {
                 // the message is from the same channel the queue was created
-                const status = guildQueue.setPaused(true);
+                const time = parseInt(args[0]);
+                const status = guildQueue.seek(time * 1000);
                 if (status) {
-                    message.channel.send("The queue is now paused!");
+                    message.channel.send(`Fast forwarded ${time} seconds`);
                 } else {
-                    message.channel.send("ERROR: Failed to pause the queue.");
+                    message.channel.send("ERROR: Failed to fast forward.");
                 }
             } else {
                 // the message is not from the same channel the queue was created
@@ -21,7 +23,7 @@ module.exports = {
             }
         } else {
             // the queue doesn't exist
-            message.channel.send("ERROR: Queue is empty, can't perform \`pause\`.");
+            message.channel.send("ERROR: Queue is empty, can't perform \`seek\`.");
         }
     }
 }

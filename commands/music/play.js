@@ -20,7 +20,7 @@ module.exports = {
             if (message.channel === queue.data.msgChannel) {
                 // the message is from the same channel the queue was created
                 queue.play(args.join(" "), {
-                    requestedBy: message.author.tag
+                    requestedBy: message.author
                 }).catch(err => message.channel.send(err.message));
             } else {
                 // the message is not from the same channel the queue was created
