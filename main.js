@@ -8,7 +8,7 @@ const { readdirSync } = require("fs");
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
 // postgres database
-const { sql } = require("./database/database.js");
+const Database = require("./database/database.js");
 
 // create an instance of a discord client
 const client = new Client({
@@ -25,9 +25,9 @@ const player = new Player(client);
 client.player = player;
 
 // create an instance of postgres database by passing in database url
-const postgres = sql(process.env.DATABASE_URL);
+const database = new Database(process.env.DATABASE_URL);
 // client now has postgres attribute
-client.postgres = postgres;
+client.database = database;
 
 // MUSIC PLAYER EVENTS
 const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));
