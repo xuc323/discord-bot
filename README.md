@@ -2,9 +2,12 @@
 
 [Add **Discord Welcome Bot** to your Discord server][0]
 
+[Github Page][3]
+
 # Requirements
 
 - git
+- node.js
 - npm
 
 # Usage
@@ -38,13 +41,16 @@ Once the token is obtained, create a `.env` file to store the configurations. Re
 ```bash
 # .env
 DISCORD_TOKEN=YOUR_TOKEN
+DATABASE_URL=POSTGRES_DATABASE_URL
 PREFIX=!
 ```
 
 # Packages
 
-[discord-music-player][1]
+- [discord-music-player][1]
+- [discord.js]
 
 [0]: https://discord.com/api/oauth2/authorize?client_id=853751983683928114&permissions=8&scope=bot
 [1]: https://www.npmjs.com/package/discord-music-player
 [2]: https://discord.com/developers/applications
+[3]: https://xuc323.github.io/discord-welcome-bot
