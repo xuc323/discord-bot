@@ -34,7 +34,7 @@ module.exports = {
         }
 
         // for music bot
-        let guildQueue = client.player.getQueue(message.guild.id);
+        const guildQueue = client.player.getQueue(message.guild.id);
 
         // execute command
         try {
