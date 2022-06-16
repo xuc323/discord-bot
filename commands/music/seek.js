@@ -2,8 +2,12 @@ module.exports = {
     name: "seek",
     description: "Fast forward the song.",
     args: true,
+    aliases: ["fastforward", "ff"],
     usage: "[time in seconds]",
-    execute(message, args, client, guildQueue) {
+    execute(message, args, client) {
+        // get queue for the guild id
+        const guildQueue = client.player.getQueue(message.guild.id);
+
         if (guildQueue) {
             // the queue exists
             // retrive the initial message channel from the queue
@@ -23,7 +27,7 @@ module.exports = {
             }
         } else {
             // the queue doesn't exist
-            message.channel.send("ERROR: Queue is empty, can't perform \`seek\`.");
+            message.channel.send("ERROR: Queue is empty, can't perform \`seek/fastforward\`.");
         }
     }
 }

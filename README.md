@@ -1,13 +1,13 @@
 # Discord Welcome Bot
 
-[Add **Discord Welcome Bot** to your Discord server][0]
+[Add **Discord Welcome Bot** to your Discord server](https://discord.com/api/oauth2/authorize?client_id=853751983683928114&permissions=274914761792&scope=bot)
 
-[Github Page][3]
+[Github Page](https://xuc323.github.io/discord-welcome-bot)
 
 # Requirements
 
 - git
-- node.js
+- node.js >= 16.x
 - npm
 
 # Usage
@@ -34,9 +34,11 @@ $ npm test
 
 ### Discord Application Token
 
-Obtain the Discord application token from the [Discord developer portal][2].
+Obtain the Discord application token from the [Discord developer portal](https://discord.com/developers/applications).
 
 Once the token is obtained, create a `.env` file to store the configurations. Remember to not leak those. Prefix is a special function call so the bot will not response to every single messages. You can choose any prefix as you wish.
+
+This program uses postgresql as the database. URL format should be `postgres://{user}:{password}@{host}:{port}/{database}`.
 
 ```bash
 # .env
@@ -47,10 +49,5 @@ PREFIX=!
 
 # Packages
 
-- [discord-music-player][1]
-- [discord.js]
-
-[0]: https://discord.com/api/oauth2/authorize?client_id=853751983683928114&permissions=8&scope=bot
-[1]: https://www.npmjs.com/package/discord-music-player
-[2]: https://discord.com/developers/applications
-[3]: https://xuc323.github.io/discord-welcome-bot
+- [discord-music-player](https://www.npmjs.com/package/discord-music-player)
+- [discord.js](https://www.npmjs.com/package/discord.js)
