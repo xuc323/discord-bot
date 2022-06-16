@@ -3,7 +3,10 @@ module.exports = {
     description: "Skip to the next song.",
     aliases: ["n", "skip"],
     args: false,
-    execute(message, args, client, guildQueue) {
+    execute(message, args, client) {
+        // get queue for the guild id
+        const guildQueue = client.player.getQueue(message.guild.id);
+
         if (guildQueue) {
             // the queue exists
             // retrive the initial message channel from the queue

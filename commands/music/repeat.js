@@ -1,7 +1,9 @@
+const { RepeatMode } = require("discord-music-player");
+
 module.exports = {
-    name: "progress",
-    description: "Create a progress bar for the current song.",
-    aliases: ["prog"],
+    name: "repeat",
+    description: "Repeat the current song.",
+    aliases: ["r"],
     args: false,
     execute(message, args, client) {
         // get queue for the guild id
@@ -12,12 +14,12 @@ module.exports = {
             // retrive the initial message channel from the queue
             const channel = guildQueue.data.msgChannel;
             if (message.channel === channel) {
-                // the message if from the same channel the queue was created
-                const bar = guildQueue.createProgressBar();
-                if (bar) {
-                    message.channel.send(bar.prettier);
+                // the message is from the same channel the queue was created
+                const status = guildQueue.setRepeatMode(RepeatMode.SONG); // set repeat mode to SONG
+                if (status) {
+                    message.channel.send("Now repeating the current song!");
                 } else {
-                    message.channel.send("ERROR: Failed to create progress bar.");
+                    message.channel.send("ERROR: Failed to repeat the current song.");
                 }
             } else {
                 // the message is not from the same channel the queue was created
@@ -25,7 +27,7 @@ module.exports = {
             }
         } else {
             // the queue doesn't exist
-            message.channel.send("ERROR: Queue is empty, can't perform \`progress\`.");
+            message.channel.send("ERROR: Queue is empty, can't perform \`repeat\`.");
         }
     }
 }
