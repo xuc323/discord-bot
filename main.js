@@ -4,8 +4,6 @@ const { Client, Intents, Collection } = require("discord.js");
 const { Player } = require("discord-music-player");
 // import file system module
 const { readdirSync } = require("fs");
-// import database module
-const Database = require("./database/database.js");
 // dotenv file
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
@@ -23,11 +21,6 @@ const client = new Client({
 const player = new Player(client);
 // client now has player attribute
 client.player = player;
-
-// create an instance of database
-const db = new Database(process.env.DATABASE_URL);
-// client now has database attribute
-client.postgres = db;
 
 // MUSIC PLAYER EVENTS
 const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));
@@ -64,4 +57,6 @@ client.once('ready', () => {
 });
 
 // log in using token
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.DISCORD_TOKEN).then(() => {
+    client.user.setActivity("| !help for help", { type: "WATCHING" });
+});

@@ -38,12 +38,9 @@ Obtain the Discord application token from the [Discord developer portal](https:/
 
 Once the token is obtained, create a `.env` file to store the configurations. Remember to not leak those. Prefix is a special function call so the bot will not response to every single messages. You can choose any prefix as you wish.
 
-This program uses postgresql as the database. URL format should be `postgres://{user}:{password}@{host}:{port}/{database}`.
-
 ```bash
 # .env
 DISCORD_TOKEN=YOUR_TOKEN
-DATABASE_URL=POSTGRES_DATABASE_URL
 PREFIX=!
 ```
 
