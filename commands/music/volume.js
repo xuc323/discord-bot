@@ -1,33 +1,36 @@
+const { queueCheck } = require("../../utils/music");
+
 module.exports = {
     name: "volume",
-    description: "Adjust the volume of the music.",
+    description: "Display or adjust the volume of the music.",
     aliases: ["v"],
-    args: true,
+    args: false,
     usage: "[volume number]",
     execute(message, args, client) {
-        // get queue for the guild id
-        const guildQueue = client.player.getQueue(message.guild.id);
 
-        if (guildQueue) {
+        let queue; // the queue instance might be undefined
+        try {
+            queue = queueCheck(message, client);
+        } catch (err) {
+            return message.channel.send(err.message);
+        }
+
+        if (queue) {
             // the queue exists
-            // retrive the initial message channel from the queue
-            const channel = guildQueue.data.msgChannel;
-            if (message.channel === channel) {
-                // the message is from the same channel the queue was created
+            if (args) {
                 const vol = parseInt(args[0]);
-                const status = guildQueue.setVolume(vol);
+                const status = queue.setVolume(vol);
                 if (status) {
-                    message.channel.send(`Volume set to ${vol}%.`);
+                    message.channel.send(`MUSIC STATUS: Volume set to ${vol}%.`);
                 } else {
-                    message.channel.send("ERROR: Failed to set volume.");
+                    message.channel.send("ERROR: Failed to set volume. Try again later.");
                 }
             } else {
-                // the message is not from the same channel the queue was created
-                message.channel.send(`The queue was created in another text channel.\nPlease head to channel ${channel} for music commands.`);
+                message.channel.send(`MUSIC STATUS: Volume at ${queue.volume()}.`);
             }
         } else {
             // the queue doesn't exist
-            message.channel.send("ERROR: Queue is empty, can't perform \`volume\`.");
+            message.channel.send("WARNING: Queue is empty, can't perform \`volume\`.");
         }
     }
 }

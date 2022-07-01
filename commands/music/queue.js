@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { queueCheck } = require("../../utils/music");
 
 module.exports = {
     name: "queue",
@@ -7,8 +8,14 @@ module.exports = {
     args: false,
     usage: "[number of songs]",
     execute(message, args, client) {
-        // get queue for the guild id
-        const guildQueue = client.player.getQueue(message.guild.id);
+
+        let queue; // the queue instance might be undefined
+        try {
+            queue = queueCheck(message, client);
+        } catch (err) {
+            return message.channel.send(err.message);
+        }
+
         // create an embed message
         const emb = new MessageEmbed()
             .setTitle(`Queue for ${message.guild.name}`);
@@ -20,29 +27,21 @@ module.exports = {
             return message.channel.send("The limit is 25.");
         }
 
-        if (guildQueue) {
+        if (queue) {
             // the queue exists
-            // retrive the initial message channel from the queue
-            const channel = guildQueue.data.msgChannel;
-            if (message.channel === channel) {
-                // the message is from the same channel the queue was created
-                // set whichever is smaller
-                const len = guildQueue.songs.length > limit ? limit : guildQueue.songs.length;
-                for (let i = 0; i < len; i++) {
-                    const song = guildQueue.songs[i];
-                    if (i === 0) {
-                        // if it's the first song
-                        emb.setThumbnail(song.thumbnail)
-                            .addField("Now Playing", `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}`);
-                    } else {
-                        emb.addField(`#${i + 1}`, `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}`);
-                    }
+            // set whichever is smaller
+            const len = queue.songs.length > limit ? limit : queue.songs.length;
+            for (let i = 0; i < len; i++) {
+                const song = queue.songs[i];
+                if (i === 0) {
+                    // if it's the first song
+                    emb.setThumbnail(song.thumbnail)
+                        .addField("Now Playing", `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}`);
+                } else {
+                    emb.addField(`#${i + 1}`, `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}`);
                 }
-                emb.setFooter({ text: `Music count: ${guildQueue.songs.length}` });
-            } else {
-                // the message is not from the same channel the queue was created
-                return message.channel.send(`The queue was created in another text channel.\nPlease head to channel ${channel} for music commands.`);
             }
+            emb.setFooter({ text: `Music count: ${queue.songs.length}` });
         } else {
             // the queue doesn't exist
             emb.setFooter({ text: "Queue is empty." });
