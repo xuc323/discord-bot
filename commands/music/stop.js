@@ -5,6 +5,7 @@ module.exports = {
     description: "Stop the music and leave the voice channel.",
     aliases: ["s"],
     args: false,
+    category: "music",
     execute(message, args, client) {
 
         let queue; // the queue instance might be undefined

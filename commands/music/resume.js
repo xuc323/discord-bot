@@ -5,6 +5,7 @@ module.exports = {
     description: "Resume the current song.",
     aliases: ["c", "continue"],
     args: false,
+    category: "music",
     execute(message, args, client) {
 
         let queue; // the queue instance might be undefined
@@ -14,7 +15,7 @@ module.exports = {
             return message.channel.send(err.message);
         }
 
-        if (guildQueue) {
+        if (queue) {
             // the queue exists
             const status = queue.setPaused(false);
             if (!status) {

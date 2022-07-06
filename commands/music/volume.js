@@ -6,6 +6,7 @@ module.exports = {
     aliases: ["v"],
     args: false,
     usage: "[volume number]",
+    category: "music",
     execute(message, args, client) {
 
         let queue; // the queue instance might be undefined
@@ -17,7 +18,7 @@ module.exports = {
 
         if (queue) {
             // the queue exists
-            if (args) {
+            if (args[0] && !isNaN(args[0])) {
                 const vol = parseInt(args[0]);
                 const status = queue.setVolume(vol);
                 if (status) {
@@ -26,7 +27,7 @@ module.exports = {
                     message.channel.send("ERROR: Failed to set volume. Try again later.");
                 }
             } else {
-                message.channel.send(`MUSIC STATUS: Volume at ${queue.volume()}.`);
+                message.channel.send(`MUSIC STATUS: Volume at ${queue.volume}%.`);
             }
         } else {
             // the queue doesn't exist

@@ -6,6 +6,7 @@ module.exports = {
     aliases: ["delete", "d"],
     args: true,
     usage: "[music number]",
+    category: "music",
     execute(message, args, client) {
 
         let queue; // the queue instance might be undefined

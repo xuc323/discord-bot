@@ -3,6 +3,7 @@ module.exports = {
     description: "Display bot's uptime.",
     args: false,
     aliases: ["up"],
+    category: "basic",
     execute(message, args, client) {
         // calculate how long the bot has been up
         let str = [];
