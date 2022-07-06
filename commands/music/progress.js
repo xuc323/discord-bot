@@ -5,6 +5,7 @@ module.exports = {
     description: "Create a progress bar for the current song.",
     aliases: ["prog"],
     args: false,
+    category: "music",
     execute(message, args, client) {
 
         let queue; // the queue instance might be undefined

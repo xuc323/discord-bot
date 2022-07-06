@@ -2,6 +2,7 @@ module.exports = {
     name: "ping",
     description: "Return bot's latency in ms.",
     args: false,
+    category: "basic",
     execute(message, args, client) {
         // create ping
         let ping = client.ws.ping;

@@ -5,6 +5,7 @@ module.exports = {
     description: "Skip to the next song.",
     aliases: ["n", "skip"],
     args: false,
+    category: "music",
     execute(message, args, client) {
 
         let queue; // the queue instance might be undefined
