@@ -1,6 +1,6 @@
 # Discord Welcome Bot
 
-[Add **Discord Welcome Bot** to your Discord server](https://discord.com/api/oauth2/authorize?client_id=853751983683928114&permissions=274914761792&scope=bot)
+[Add **Discord Welcome Bot** to your Discord server](https://discord.com/api/oauth2/authorize?client_id=853751983683928114&permissions=3230720&scope=bot)
 
 [Github Page](https://xuc323.github.io/discord-welcome-bot)
 
