@@ -1,10 +1,10 @@
-import { Client, ClientConfig } from "pg";
+import { Client } from "pg";
 
 // database class
 class Database {
   client: Client;
 
-  constructor(url: ClientConfig["connectionString"]) {
+  constructor(url: string) {
     // create an instance of the database client
     this.client = new Client({ connectionString: url });
 
@@ -15,7 +15,7 @@ class Database {
       } else {
         console.log("Postgres database connected!");
         // after connection, create table if not exists
-        this.#createTables();
+        this.createTables();
       }
     });
 
@@ -33,7 +33,7 @@ class Database {
   /**
    * helper function to create all necessary tables
    */
-  #createTables() {
+  private createTables(): void {
     // query statement to create relational table if not exists
     const statement = `
             CREATE TABLE IF NOT EXISTS guilds(
@@ -85,14 +85,14 @@ class Database {
    * @param {String} user.discriminator the user discriminator from discord
    * @param {BigInt} user.id the user id from discord
    */
-  playSongInsert(
+  public playSongInsert(
     guild: { id: bigint; name: string },
     song: { name: string; url: string; author: string },
     user: { username: string; discriminator: number; id: bigint }
-  ) {
-    const gid_promise = this.#guildInsert(guild.id, guild.name);
-    const sid_promise = this.#songInsert(song.name, song.url, song.author);
-    const uid_promise = this.#userInsert(
+  ): void {
+    const gid_promise = this.guildInsert(guild.id, guild.name);
+    const sid_promise = this.songInsert(song.name, song.url, song.author);
+    const uid_promise = this.userInsert(
       user.username,
       user.discriminator,
       user.id
@@ -102,7 +102,9 @@ class Database {
         const gid = values[0].rows[0].gid;
         const sid = values[1].rows[0].sid;
         const uid = values[2].rows[0].uid;
-        this.#requestInsert(gid, sid, uid).catch((err) => console.error(err));
+        this.requestInsert(gid, sid, uid).catch((err: Error) =>
+          console.error(err)
+        );
       })
       .catch((err) => console.error(err));
   }
@@ -113,7 +115,7 @@ class Database {
    * @param {String} name
    * @returns
    */
-  #guildInsert(id: bigint, name: string) {
+  private guildInsert(id: bigint, name: string) {
     // prepare query statement
     const statement = `
             INSERT INTO guilds(id, name)
@@ -136,7 +138,7 @@ class Database {
    * @param {String} author
    * @returns
    */
-  #songInsert(name: string, url: string, author: string) {
+  private songInsert(name: string, url: string, author: string) {
     // prepare query statement
     const statement = `
             INSERT INTO songs(name, url, author)
@@ -159,7 +161,7 @@ class Database {
    * @param {BigInt} id
    * @returns
    */
-  #userInsert(username: string, discriminator: number, id: bigint) {
+  private userInsert(username: string, discriminator: number, id: bigint) {
     // prepare query statement
     const statement = `
             INSERT INTO users(username, discriminator, id)
@@ -182,7 +184,7 @@ class Database {
    * @param {uuid} uid
    * @returns
    */
-  #requestInsert(gid: string, sid: string, uid: string) {
+  private requestInsert(gid: string, sid: string, uid: string) {
     // prepare query statement
     const statement = `
             INSERT INTO requests(gid, sid, uid)

@@ -1,9 +1,9 @@
 import { Queue, Song } from "discord-music-player";
-import { TextBasedChannel } from "discord.js";
+import { queueData } from "../player";
 
 export const name = "songFirst";
-export function execute(queue: Queue, song: Song): void {
+export function execute(queue: Queue<queueData>, song: Song): void {
   // retrive the initial message channel from the queue
-  const channel: TextBasedChannel = queue.data.msgChannel;
-  channel.send(`Started playing **${song}**.`);
+  const channel = queue.data?.msgChannel;
+  channel?.send(`Started playing **${song}**.`);
 }

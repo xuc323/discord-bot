@@ -1,13 +1,13 @@
-import { Player, Queue } from "discord-music-player";
+import { Player as P, Queue } from "discord-music-player";
 import { Client, Message } from "discord.js";
 import { readdirSync } from "fs";
 
-export class Music_Player {
-  public player: Player;
+export class Player {
+  public player: P;
 
   constructor(client: Client) {
     // get an instance of music player
-    const player = new Player(client);
+    this.player = new P(client);
 
     // register music events
     const eventFiles = readdirSync("./music_player/events").filter(
@@ -15,10 +15,8 @@ export class Music_Player {
     );
     for (const file of eventFiles) {
       const event = require(`./events/${file}`);
-      player.on(event.name, (...args) => event.execute(...args));
+      this.player.on(event.name, (...args) => event.execute(...args));
     }
-
-    this.player = player;
   }
 
   queueCheck(message: Message): Queue | undefined {
@@ -29,13 +27,15 @@ export class Music_Player {
     }
 
     // get queue for the guild id
-    const queue = this.player.getQueue(message.guildId ?? "");
+    const queue = this.player.getQueue(
+      message.guildId ?? ""
+    ) as Queue<queueData>;
 
     if (queue) {
       // check if the message is from the initial message channel
-      if (message.channel != queue.data.msgChannel) {
+      if (message.channel != queue.data?.msgChannel) {
         throw new Error(
-          `The queue was created in another text channel.\nHead to channel ${queue.data.msgChannel} for music commands.`
+          `The queue was created in another text channel.\nHead to channel ${queue.data?.msgChannel} for music commands.`
         );
       }
 
@@ -51,3 +51,7 @@ export class Music_Player {
     }
   }
 }
+
+export type queueData = {
+  msgChannel: Message["channel"];
+};
