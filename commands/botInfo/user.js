@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "user",
@@ -8,7 +8,7 @@ module.exports = {
     execute(message, args, client) {
         const { createdAt, id, username, tag } = message.author;
         const icon = message.author.avatarURL();
-        const emb = new MessageEmbed()
+        const emb = new EmbedBuilder()
             .setTitle(`User info for \`${username}\``)
             .setThumbnail(icon)
             .addFields(

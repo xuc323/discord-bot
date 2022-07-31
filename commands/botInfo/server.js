@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "server",
@@ -8,7 +8,7 @@ module.exports = {
     execute(message, args, client) {
         const { name, memberCount, createdAt } = message.guild;
         const icon = message.guild.iconURL();
-        const emb = new MessageEmbed()
+        const emb = new EmbedBuilder()
             .setTitle(`Server info for \`${name}\``)
             .setThumbnail(icon)
             .addFields(
