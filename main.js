@@ -3,12 +3,15 @@ const { Client, GatewayIntentBits, Collection, ActivityType } = require("discord
 // import file system module
 const { readdirSync } = require("fs");
 // import music player module
-const { Player } = require("./music_player/player");
+const { Player } = require("discord-music-player");
 // import database module
-const Database = require("./utils/database");
+const Database = require("./database");
 // dotenv file
 require("dotenv").config({ path: ".env" });
 
+/**
+ * START CREATING BOT CLIENT
+ */
 // create an instance of a discord client
 const client = new Client({
     intents: [
@@ -16,20 +19,15 @@ const client = new Client({
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildVoiceStates,
         GatewayIntentBits.MessageContent
-    ]
+    ],
+    presence: {
+        activities: [
+            { name: "| !help for help", type: ActivityType.Watching }
+        ],
+        status: "online"
+    }
 });
 
-// create an instance of music player by passing in discord client
-const player = Player(client);
-// client now has player attribute
-client.player = player;
-
-// create an instance of database
-const db = new Database(process.env.DATABASE_URL);
-// client now has database attribute
-client.postgres = db;
-
-// COMMANDS
 // register commands
 client.commands = new Collection();
 const commandFolders = readdirSync("./commands");
@@ -43,7 +41,7 @@ for (const folder of commandFolders) {
     }
 }
 
-// EVENTS
+// register events
 const eventFiles = readdirSync("./events").filter((file) => file.endsWith(".js"));
 // loop through all .js files
 for (const file of eventFiles) {
@@ -55,8 +53,35 @@ for (const file of eventFiles) {
 client.once('ready', () => {
     console.log(`Bot is online! Logged in as ${client.user.tag}!`);
 });
+/**
+ *  END CREATING BOT CLIENT
+ */
 
-// log in using token
-client.login(process.env.DISCORD_TOKEN).then(() => {
-    client.user.setActivity("| !help for help", { type: ActivityType.Watching });
-});
+/**
+ * START CREATING PLAYER CLIENT
+ */
+// create an instance of music player by passing in discord client and attach to bot client
+client.player = new Player(client);
+
+// register events
+const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));
+for (const file of musicEventFiles) {
+    const event = require(`./music_events/${file}`);
+    client.player.on(event.name, (...args) => event.execute(...args, client));
+}
+/**
+ * END CREATING PLAYER CLIENT
+ */
+
+/**
+ * START CREATING POSTGRES DATABASE CLIENT
+ */
+// create an instance of database and attach to bot client
+client.postgres = new Database(process.env.DATABASE_URL);
+/**
+ * END CREATING POSTGRES DATABASE CLIENT
+ */
+
+
+// after everything, log in using token
+client.login(process.env.DISCORD_TOKEN);

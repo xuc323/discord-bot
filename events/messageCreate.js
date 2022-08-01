@@ -37,7 +37,7 @@ module.exports = {
         try {
             command.execute(message, args, client);
         } catch (error) {
-            console.log(`BOT ERROR: ${error.stack}`);
+            console.log(`BOT ERROR: ${error}`);
             message.channel.send("There was an error trying to execute that command..");
         }
     }
