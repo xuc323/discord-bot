@@ -1,4 +1,4 @@
-const { queueCheck } = require("../../utils/music");
+const { Message, Client } = require("discord.js");
 
 module.exports = {
     name: "progress",
@@ -6,26 +6,25 @@ module.exports = {
     aliases: ["prog"],
     args: false,
     category: "music",
+    /**
+     * display the progress bar for the current song
+     * @param {Message} message 
+     * @param {string[]} args 
+     * @param {Client} client 
+     * @returns 
+     */
     execute(message, args, client) {
-
-        let queue; // the queue instance might be undefined
-        try {
-            queue = queueCheck(message, client);
-        } catch (err) {
-            return message.channel.send(err.message);
-        }
-
-        if (queue) {
-            // the queue exists
+        // check if the queue exists
+        const queue = client.player.getQueue(message.guild.id);
+        if (queue) { // the queue exists
             const bar = queue.createProgressBar();
             if (bar) {
-                message.channel.send(bar.prettier);
+                message.channel.send(`${queue.nowPlaying.name}\n${bar.prettier}`);
             } else {
                 message.channel.send("ERROR: Failed to create progress bar. Try again later.");
             }
-        } else {
-            // the queue doesn't exist
-            message.channel.send("WARNING: Queue is empty, can't perform \`progress\`.");
+        } else { // the queue doesn't exist
+            message.channel.send(`WARNING: Queue is empty, can't perform \`${this.name}\`.`);
         }
     }
 }

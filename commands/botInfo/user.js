@@ -1,16 +1,21 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, Message, Client } = require("discord.js");
 
 module.exports = {
     name: "user",
     description: "Display user info.",
     args: false,
     category: "basic",
+    /**
+     * display user info in an embed message
+     * @param {Message} message 
+     * @param {string[]} args 
+     * @param {Client} client 
+     */
     execute(message, args, client) {
         const { createdAt, id, username, tag } = message.author;
-        const icon = message.author.avatarURL();
         const emb = new EmbedBuilder()
             .setTitle(`User info for \`${username}\``)
-            .setThumbnail(icon)
+            .setThumbnail(message.author.avatarURL())
             .addFields(
                 [{
                     name: "ID ",

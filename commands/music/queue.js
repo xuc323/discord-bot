@@ -1,5 +1,4 @@
-const { MessageEmbed } = require("discord.js");
-const { queueCheck } = require("../../utils/music");
+const { EmbedBuilder, Message, Client } = require("discord.js");
 
 module.exports = {
     name: "queue",
@@ -8,28 +7,28 @@ module.exports = {
     args: false,
     usage: "[number of songs]",
     category: "music",
+    /**
+     * display the queue
+     * @param {Message} message 
+     * @param {string[]} args 
+     * @param {Client} client 
+     * @returns 
+     */
     execute(message, args, client) {
-
-        let queue; // the queue instance might be undefined
-        try {
-            queue = queueCheck(message, client);
-        } catch (err) {
-            return message.channel.send(err.message);
-        }
-
+        // check if the queue exists
+        const queue = client.player.getQueue(message.guild.id);
         // create an embed message
-        const emb = new MessageEmbed()
+        const emb = new EmbedBuilder()
             .setTitle(`Queue for ${message.guild.name}`);
 
-        // if no args or args is not number, default to 5, otherwise use args
-        const limit = (args[0] && !isNaN(args[0])) || 5;
-        if (limit > 25) {
-            // set limit to 25 because that's what discord allows
-            return message.channel.send("The limit is 25.");
-        }
+        if (queue) { // the queue exists
+            // if no args or args is not number, default to 5, otherwise use args
+            const limit = (args[0] && Number(args[0])) || 5;
+            if (limit > 25) {
+                // set limit to 25 because that's what discord allows
+                return message.channel.send("The limit is 25.");
+            }
 
-        if (queue) {
-            // the queue exists
             // set whichever is smaller
             const len = queue.songs.length > limit ? limit : queue.songs.length;
             for (let i = 0; i < len; i++) {
@@ -37,14 +36,13 @@ module.exports = {
                 if (i === 0) {
                     // if it's the first song
                     emb.setThumbnail(song.thumbnail)
-                        .addField("Now Playing", `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}`);
+                        .addFields([{ name: "Now Playing", value: `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}` }]);
                 } else {
-                    emb.addField(`#${i + 1}`, `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}`);
+                    emb.addFields([{ name: `#${i + 1}`, value: `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}` }]);
                 }
             }
-            emb.setFooter({ text: `Music count: ${queue.songs.length}` });
-        } else {
-            // the queue doesn't exist
+            emb.setFooter({ text: `Music count: ${queue.songs.length}\nPlaying in ${queue.connection.channel.name}` });
+        } else { // the queue doesn't exist
             emb.setFooter({ text: "Queue is empty." });
         }
         message.channel.send({ embeds: [emb] });

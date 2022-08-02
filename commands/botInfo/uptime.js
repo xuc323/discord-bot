@@ -1,9 +1,17 @@
+const { Message, Client } = require("discord.js");
+
 module.exports = {
     name: "uptime",
     description: "Display bot's uptime.",
     args: false,
     aliases: ["up"],
     category: "basic",
+    /**
+     * display how long the bot has been online
+     * @param {Message} message 
+     * @param {string[]} args 
+     * @param {Client} client 
+     */
     execute(message, args, client) {
         // calculate how long the bot has been up
         let str = [];
