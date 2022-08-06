@@ -1,4 +1,5 @@
 const { EmbedBuilder, Message, Client } = require("discord.js");
+const { Player } = require("discord-music-player");
 
 module.exports = {
     name: "queue",
@@ -12,6 +13,7 @@ module.exports = {
      * @param {Message} message 
      * @param {string[]} args 
      * @param {Client} client 
+     * @param {Player} client.player
      * @returns 
      */
     execute(message, args, client) {
@@ -22,6 +24,8 @@ module.exports = {
             .setTitle(`Queue for ${message.guild.name}`);
 
         if (queue) { // the queue exists
+            // display the voice channel for easy join
+            emb.setDescription(`Playing in ${queue.connection.channel}`);
             // if no args or args is not number, default to 5, otherwise use args
             const limit = (args[0] && Number(args[0])) || 5;
             if (limit > 25) {
@@ -41,7 +45,7 @@ module.exports = {
                     emb.addFields([{ name: `#${i + 1}`, value: `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}` }]);
                 }
             }
-            emb.setFooter({ text: `Music count: ${queue.songs.length}\nPlaying in ${queue.connection.channel.name}` });
+            emb.setFooter({ text: `Music count: ${queue.songs.length}` });
         } else { // the queue doesn't exist
             emb.setFooter({ text: "Queue is empty." });
         }

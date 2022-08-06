@@ -8,6 +8,6 @@ module.exports = {
      * @param {Client} client 
      */
     execute(error, client) {
-        console.log(`BOT ERROR: ${error.name} ${error.message}`);
+        console.log(`BOT ERROR: ${error}`);
     }
 }
