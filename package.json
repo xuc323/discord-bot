@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
-    "discord-music-player": "^9.0.2",
+    "discord-music-player": "^9.1.1",
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.1",
     "pg": "^8.8.0"
