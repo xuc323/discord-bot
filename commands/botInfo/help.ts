@@ -14,8 +14,14 @@ const cmd: command = {
     if (!args.length) {
       // no args, return all commands
       data.push("Supported commands:\n");
-      // object to store different categories of commands
-
+      // construct command string
+      data.push(
+        commands
+          ?.map(
+            (command: command) => `**${command.name}** ${command.description}`
+          )
+          .join("\n")
+      );
       data.push(
         `\nYou can send \`${prefix}help ${this.usage}\` to get info of a specific command.`
       );
