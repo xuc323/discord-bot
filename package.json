@@ -4,8 +4,11 @@
   "description": "Simple discord bot that also plays music.",
   "main": "main.ts",
   "scripts": {
-    "start": "ts-node main.ts",
-    "test": "nodemon main.ts"
+    "start": "node ./build/main.js",
+    "dev": "ts-node main.ts",
+    "test": "nodemon main.ts",
+    "build": "tsc",
+    "clean": "rm -rf ./build"
   },
   "author": "",
   "engines": {

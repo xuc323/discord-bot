@@ -36,15 +36,13 @@ const client: MyClient = new Client({
 
 // register commands
 client.commands = new Collection();
-const commandFolders = readdirSync("./commands");
+const commandFolders = readdirSync(`${__dirname}/commands`);
 // loop through all folders in commands
 for (const folder of commandFolders) {
-  const commandFiles = readdirSync(`./commands/${folder}`).filter((file) =>
-    file.endsWith(".ts")
-  );
+  const commandFiles = readdirSync(`${__dirname}/commands/${folder}`);
   // loop through all .ts files
   for (const file of commandFiles) {
-    import(`./commands/${folder}/${file}`).then((e) => {
+    import(`${__dirname}/commands/${folder}/${file}`).then((e) => {
       const cmd: command = e.default;
       client.commands?.set(cmd.name, cmd);
     });
@@ -52,12 +50,10 @@ for (const folder of commandFolders) {
 }
 
 // register events
-const eventFiles = readdirSync("./events").filter((file) =>
-  file.endsWith(".ts")
-);
+const eventFiles = readdirSync(`${__dirname}/events`);
 // loop through all .js files
 for (const file of eventFiles) {
-  import(`./events/${file}`).then((e) => {
+  import(`${__dirname}/events/${file}`).then((e) => {
     const event: event = e.default;
     client.on(event.name, (...args) => event.execute(client, ...args));
   });
@@ -84,11 +80,9 @@ client.player = new Player(client, {
 });
 
 // register events
-const musicEventFiles = readdirSync("./music_events").filter((file) =>
-  file.endsWith(".ts")
-);
+const musicEventFiles = readdirSync(`${__dirname}/music_events`);
 for (const file of musicEventFiles) {
-  import(`./music_events/${file}`).then((e) => {
+  import(`${__dirname}/music_events/${file}`).then((e) => {
     const event: playerEvent = e.default;
     client.player?.on(event.name, (...args) => event.execute(client, ...args));
   });
