@@ -1,9 +1,9 @@
 // import discord.js module
 const { Client, Intents, Collection } = require("discord.js");
-// import music player
-const { Player } = require("discord-music-player");
 // import file system module
 const { readdirSync } = require("fs");
+// import music player module
+const { Player } = require("./music_player/player");
 // import database module
 const Database = require("./utils/database");
 // dotenv file
@@ -19,21 +19,14 @@ const client = new Client({
 });
 
 // create an instance of music player by passing in discord client
-const player = new Player(client);
+const player = Player(client);
 // client now has player attribute
 client.player = player;
 
-// create an instance of database
-const db = new Database(process.env.DATABASE_URL);
-// client now has database attribute
-client.postgres = db;
-
-// MUSIC PLAYER EVENTS
-const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));
-for (const file of musicEventFiles) {
-    const event = require(`./music_events/${file}`);
-    client.player.on(event.name, (...args) => event.execute(...args, client));
-}
+// // create an instance of database
+// const db = new Database(process.env.DATABASE_URL);
+// // client now has database attribute
+// client.postgres = db;
 
 // COMMANDS
 // register commands

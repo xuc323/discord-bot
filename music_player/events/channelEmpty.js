@@ -1,8 +1,8 @@
 module.exports = {
-    name: "songFirst",
-    execute(queue, song, client) {
+    name: "channelEmpty",
+    execute(queue) {
         // retrive the initial message channel from the queue
         const channel = queue.data.msgChannel;
-        channel.send(`Started playing **${song}**.`);
+        channel.send("Everyone left the Voice Channel, queue ended.");
     }
 }
