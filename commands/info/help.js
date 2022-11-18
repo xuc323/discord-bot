@@ -1,11 +1,9 @@
-const prefix = process.env.PREFIX;
-
 module.exports = {
     name: "help",
     description: "List all commands or info about a specific command.",
     aliases: ["commands"],
     usage: "[command name]",
-    execute(message, args) {
+    execute(message, args, prefix) {
         const data = [];
         const { commands } = message.client;
         if (!args.length) {
