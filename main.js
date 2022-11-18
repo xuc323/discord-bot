@@ -5,10 +5,9 @@ const { Player } = require("discord-music-player");
 // import file system module
 const { readdirSync } = require("fs");
 // import database module
-const Database = require("./database/database.js");
+const Database = require("./utils/database");
 // dotenv file
-const dotenv = require("dotenv");
-dotenv.config({ path: ".env" });
+require("dotenv").config({ path: ".env" });
 
 // create an instance of a discord client
 const client = new Client({
@@ -62,6 +61,11 @@ for (const file of eventFiles) {
 client.once('ready', () => {
     console.log(`Bot is online! Logged in as ${client.user.tag}!`);
 });
+client.once('guildCreate', (guild) => {
+    guild.systemChannel.send("Thanks for inviting me to your server!\nCommands start with `!`. Type `!help` for more information.");
+});
 
 // log in using token
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.DISCORD_TOKEN).then(() => {
+    client.user.setActivity("| !help for help", { type: "WATCHING" });
+});
