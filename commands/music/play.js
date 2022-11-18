@@ -4,13 +4,14 @@ module.exports = {
     aliases: ["p"],
     args: true,
     usage: "[song name or url]",
-    async execute(message, args, client) {
-        const song = await client.player.play(message, {
+    execute(message, args, client) {
+        client.player.play(message, {
             search: args.join(" "),
             requestedBy: message.author.tag
+        }).then((song) => {
+            if (song) {
+                console.log(`Playing ${song.name}`);
+            }
         });
-        if (song) {
-            console.log(`Playing ${song.name}`);
-        }
     }
 }
