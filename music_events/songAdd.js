@@ -1,5 +1,3 @@
-const { preparedSongInsert } = require("../database/songInsert");
-
 module.exports = {
     name: "songAdd",
     execute(queue, song, client) {
@@ -7,6 +5,6 @@ module.exports = {
         const channel = queue.data.msgChannel;
         channel.send(`**${song.name}** has been added to the queue.\n${song.url}`);
         console.log(`[${queue.guild.name} | ${queue.guild.id} | ${song.requestedBy.tag}]: ${song} ${song.url}`);
-        preparedSongInsert(client, { gid: queue.guild.id, name: queue.guild.name }, { name: song.name, url: song.url, author: song.author }, { username: song.requestedBy.username, discriminator: song.requestedBy.discriminator, id: song.requestedBy.id });
+        client.database.playSongInsert({ gid: queue.guild.id, name: queue.guild.name }, { name: song.name, url: song.url, author: song.author }, { username: song.requestedBy.username, discriminator: song.requestedBy.discriminator, id: song.requestedBy.id });
     }
 }
