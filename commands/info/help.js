@@ -1,4 +1,4 @@
-const prefix = "-";
+const prefix = process.env.PREFIX;
 
 module.exports = {
     name: "help",
@@ -7,15 +7,16 @@ module.exports = {
     usage: "[command name]",
     execute(message, args) {
         const data = [];
-        const commands = message.client;
+        const { commands } = message.client;
         if (!args.length) {
             data.push("Here's a list of all commands: ");
             data.push(commands.map(command => command.name).join(", "));
             data.push(`\nYou can send\`${prefix}help [command name]\` to get info on a specific command.`);
             return message.author.send(data, { split: true }).then(function () {
                 if (message.channel.type === "dm") {
-                    return message.reply("I've sent you a DM with all commands!");
+                    return;
                 }
+                message.reply("I've sent you a DM with all commands!");
             }).catch(function (err) {
                 console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
                 message.reply("It seems like I can't DM you! Do you have DMs disabled?");
