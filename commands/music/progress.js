@@ -3,14 +3,10 @@ module.exports = {
     description: "Create a progress bar for the current song.",
     aliases: ["prog"],
     args: false,
-    execute(message, args, client) {
-        const bar = client.player.createProgressBar(message, {
-            size: 10,
-            block: "=",
-            arrow: ">"
-        });
+    execute(message, args, client, guildQueue) {
+        const bar = guildQueue.createProgressBar();
         if (bar) {
-            message.channel.send(bar);
+            message.channel.send(bar.prettier);
         }
     }
 }
