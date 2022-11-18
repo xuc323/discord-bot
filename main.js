@@ -1,7 +1,7 @@
 // import discord.js module
 const Discord = require("discord.js");
 // create an instance of a discord client
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 // file system module
 const fs = require("fs");
 // dotenv file
