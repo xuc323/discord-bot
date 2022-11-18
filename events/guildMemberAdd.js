@@ -8,7 +8,7 @@ module.exports = {
         const ruleChannel = member.guild.channels.cache.get(ruleId);
         // send the message to "welcome" channel
         setTimeout(() => {
-            member.guild.channels.cache.get(channelId).send(`Welcome ${member}, please check and agree to the rules in ${ruleChannel}`);
+            member.guild.channels.cache.get(channelId).send(`Welcome ${member}, please check and agree to the ${ruleChannel}`);
         }, 500);
     }
 }
