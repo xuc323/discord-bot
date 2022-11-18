@@ -4,7 +4,7 @@ module.exports = {
     name: "server",
     description: "Display server info.",
     args: false,
-    execute(message, args) {
+    execute(message, args, client) {
         const { name, region, memberCount, createdAt } = message.guild;
         const icon = message.guild.iconURL();
         const emb = new MessageEmbed().setTitle(`Server info for \`${name}\``).setThumbnail(icon).addFields(

@@ -14,6 +14,8 @@ module.exports = {
 
         const args = message.content.slice(prefix.length).trim().split(/ +/);
         const commandName = args.shift().toLowerCase();
+
+        // search the command by looking for the command name and aliases
         const command = client.commands.get(commandName) || client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
         // if unknown command
@@ -21,9 +23,9 @@ module.exports = {
             return message.channel.send(`Unknown command: \`${message.content}\`. Type \`${prefix}help\` for more information.`);
         }
 
-        // if command needs argument but there's none
+        // if the command needs argument but there's none
         if (command.args && !args.length) {
-            let reply = "\nYou did not provide any arguments.";
+            let reply = "You did not provide any arguments.";
             if (command.usage) {
                 reply += `\nThe proper usage is: \`${prefix}${command.name} ${command.usage}\``;
             }

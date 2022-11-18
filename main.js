@@ -1,60 +1,68 @@
 // import discord.js module
-const Discord = require("discord.js");
-// create an instance of a discord client
-const client = new Discord.Client({
-    intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_VOICE_STATES]
-});
+const DiscordJS = require('discord.js');
 // file system module
-const fs = require("fs");
+const FS = require('fs');
 // dotenv file
-require("dotenv").config({ path: ".env" });
-// music player
-const { Player } = require("discord-music-player");
-const player = new Player(client, {
-    leaveOnEmpty: true,
-    leaveOnEnd: true,
-    leaveOnStop: true,
-    timeout: 5000,
-    deafenOnJoin: true,
-    volume: 100,
-    quality: "high"
+const dotenv = require('dotenv');
+dotenv.config({ path: ".env" });
+
+// create an instance of a discord client
+const client = new DiscordJS.Client({
+    intents: [
+        DiscordJS.Intents.FLAGS.GUILDS,
+        DiscordJS.Intents.FLAGS.GUILD_MESSAGES,
+        DiscordJS.Intents.FLAGS.GUILD_VOICE_STATES
+    ]
 });
 
-// client now has player attribute
-client.player = player;
+// // music player
+// const { Player } = require("discord-music-player");
+// const player = new Player(client, {
+//     leaveOnEmpty: true,
+//     leaveOnEnd: true,
+//     leaveOnStop: true,
+//     timeout: 5000,
+//     deafenOnJoin: true,
+//     volume: 100,
+//     quality: "high"
+// });
 
-// finding events
-const eventFiles = fs.readdirSync("./events").filter((file) => file.endsWith(".js"));
-// loop through all .js files
-for (const file of eventFiles) {
-    const event = require(`./events/${file}`);
-    // if event only happens once
-    if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args, client));
-    } else {
-        client.on(event.name, (...args) => event.execute(...args, client));
-    }
-}
+// // client now has player attribute
+// client.player = player;
 
-// music player events
-const musicEventFiles = fs.readdirSync("./music-events").filter((file) => file.endsWith(".js"));
-for (const file of musicEventFiles) {
-    const event = require(`./music-events/${file}`);
-    client.player.on(event.name, (...args) => event.execute(...args));
-}
+// // music player events
+// const musicEventFiles = fs.readdirSync("./music_events").filter((file) => file.endsWith(".js"));
+// for (const file of musicEventFiles) {
+//     const event = require(`./music_events/${file}`);
+//     client.player.on(event.name, (...args) => event.execute(...args));
+// }
 
+// COMMANDS
 // register commands
-client.commands = new Discord.Collection();
-const commandFolders = fs.readdirSync("./commands");
+client.commands = new DiscordJS.Collection();
+const commandFolders = FS.readdirSync("./commands");
 // loop through all folders in commands
 for (const folder of commandFolders) {
-    const commandFiles = fs.readdirSync(`./commands/${folder}`).filter((file) => file.endsWith(".js"));
+    const commandFiles = FS.readdirSync(`./commands/${folder}`).filter((file) => file.endsWith(".js"));
     // loop through all .js files
     for (const file of commandFiles) {
         const command = require(`./commands/${folder}/${file}`);
         client.commands.set(command.name, command);
     }
 }
+
+// EVENTS
+// finding events
+const eventFiles = FS.readdirSync("./events").filter((file) => file.endsWith(".js"));
+// loop through all .js files
+for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    client.on(event.name, (...args) => event.execute(...args, client));
+}
+
+client.once('ready', () => {
+    console.log(`Bot is online! Logged in as ${client.user.tag}!`);
+});
 
 // log in using token
 client.login(process.env.DISCORD_TOKEN);

@@ -2,7 +2,7 @@ module.exports = {
     name: "user",
     description: "Display user info.",
     args: false,
-    execute(message, args) {
+    execute(message, args, client) {
         message.channel.send(`Your username: ${message.author.username}\nYour ID: ${message.author.id}`);
     }
 }
