@@ -1,6 +1,6 @@
 module.exports = {
     name: "songFirst",
-    execute(message, song) {
-        message.channel.send(`**${song.name}** is now playing!`);
+    execute(queue, song) {
+        console.log(`Started playing ${song}.`);
     }
 }

@@ -1,6 +1,6 @@
 module.exports = {
     name: "queueEnd",
-    execute(message, queue) {
-        message.channel.send("The queue has ended!");
+    execute(queue) {
+        console.log(`The queue has ended.`);
     }
 }
