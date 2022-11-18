@@ -3,7 +3,7 @@ module.exports = {
     description: "Perform math calculation. (+-*/%^)",
     args: true,
     usage: "[num1] [operator] [num2]",
-    execute(message, args) {
+    execute(message, args, client) {
         if (args.length != 3) {
             return message.channel.send(`Please follow the format: \`${this.usage}\``);
         }

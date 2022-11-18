@@ -3,10 +3,8 @@ module.exports = {
     description: "Resume the current song.",
     aliases: ["r"],
     args: false,
-    execute(message, args, client) {
-        const song = client.player.resume(message);
-        if (song) {
-            message.channel.send(`**${song.name}** was resumed!`);
-        }
+    execute(message, args, client, guildQueue) {
+        guildQueue.setPaused(false);
+        message.channel.send("The queue is now resumed!");
     }
 }

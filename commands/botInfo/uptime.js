@@ -2,6 +2,7 @@ module.exports = {
     name: "uptime",
     description: "Display bot's uptime.",
     args: false,
+    aliases: ["up"],
     execute(message, args, client) {
         let str = [];
         let duration = client.uptime;

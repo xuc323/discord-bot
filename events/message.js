@@ -1,7 +1,7 @@
 const prefix = process.env.PREFIX;
 
 module.exports = {
-    name: "message",
+    name: "messageCreate",
     execute(message, client) {
         // bot will not respond to message without prefix "!" or message from itself
         if (!message.content.startsWith(prefix) || message.author.bot) {
@@ -12,8 +12,11 @@ module.exports = {
             return message.channel.send("Commands can only be executed in one of the channels.");
         }
 
+        // parse the command and arguments
         const args = message.content.slice(prefix.length).trim().split(/ +/);
         const commandName = args.shift().toLowerCase();
+
+        // search the command by looking for the command name and aliases
         const command = client.commands.get(commandName) || client.commands.find((cmd) => cmd.aliases && cmd.aliases.includes(commandName));
 
         // if unknown command
@@ -21,18 +24,21 @@ module.exports = {
             return message.channel.send(`Unknown command: \`${message.content}\`. Type \`${prefix}help\` for more information.`);
         }
 
-        // if command needs argument but there's none
+        // if the command needs argument but there's none
         if (command.args && !args.length) {
-            let reply = "\nYou did not provide any arguments.";
+            let reply = "You did not provide any arguments.";
             if (command.usage) {
                 reply += `\nThe proper usage is: \`${prefix}${command.name} ${command.usage}\``;
             }
             return message.channel.send(reply);
         }
 
+        // for music bot
+        let guildQueue = client.player.getQueue(message.guild.id);
+
         // execute command
         try {
-            command.execute(message, args, client);
+            command.execute(message, args, client, guildQueue);
         } catch (error) {
             console.error(error);
             message.channel.send("There was an error trying to execute that command..");
