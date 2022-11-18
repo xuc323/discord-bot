@@ -4,6 +4,7 @@ module.exports = {
     args: true,
     usage: "[status number] [status]",
     execute(message, args, client) {
+        // status supported by discord
         let type;
         switch (args[0]) {
             case "1":

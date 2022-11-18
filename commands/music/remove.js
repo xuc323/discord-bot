@@ -4,14 +4,27 @@ module.exports = {
     aliases: ["delete", "d"],
     args: true,
     usage: "[music number]",
-    execute(message, args, client, guildQueue) {
+    execute(message, args, client) {
+        // get queue for the guild id
+        const guildQueue = client.player.getQueue(message.guild.id);
+
         if (guildQueue) {
             // the queue exists
             // retrive the initial message channel from the queue
             const channel = guildQueue.data.msgChannel;
             if (message.channel === channel) {
                 // the message is from the same channel the queue was created
+                if (isNaN(args[0])) {
+                    return message.channel.send("ERROR: The argument can only be number.");
+                }
+
                 const num = parseInt(args[0]);
+                if (num < 1) {
+                    return message.channel.send("ERROR: Song number can only be greater than 1.");
+                } else if (num === 1) {
+                    return message.channel.send("Can't remove the song that is currently playing. Use \`skip\` instead.");
+                }
+
                 const song = guildQueue.remove(num - 1);
                 if (song) {
                     message.channel.send(`Song ${song.name} is removed from the queue.`);
