@@ -15,27 +15,19 @@ const client = new DiscordJS.Client({
     ]
 });
 
-// // music player
-// const { Player } = require("discord-music-player");
-// const player = new Player(client, {
-//     leaveOnEmpty: true,
-//     leaveOnEnd: true,
-//     leaveOnStop: true,
-//     timeout: 5000,
-//     deafenOnJoin: true,
-//     volume: 100,
-//     quality: "high"
-// });
+// music player
+const { Player } = require("discord-music-player");
+const player = new Player(client);
 
-// // client now has player attribute
-// client.player = player;
+// client now has player attribute
+client.player = player;
 
-// // music player events
-// const musicEventFiles = fs.readdirSync("./music_events").filter((file) => file.endsWith(".js"));
-// for (const file of musicEventFiles) {
-//     const event = require(`./music_events/${file}`);
-//     client.player.on(event.name, (...args) => event.execute(...args));
-// }
+// music player events
+const musicEventFiles = FS.readdirSync("./music_events").filter((file) => file.endsWith(".js"));
+for (const file of musicEventFiles) {
+    const event = require(`./music_events/${file}`);
+    client.player.on(event.name, (...args) => event.execute(...args));
+}
 
 // COMMANDS
 // register commands
