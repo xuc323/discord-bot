@@ -47,6 +47,22 @@ DATABASE_URL=POSTGRES_DATABASE_URL
 PREFIX=!
 ```
 
+# Templates
+
+### Command Templates
+
+```js
+module.exports = {
+  name: "",
+  description: "",
+  usage: "",
+  category: "",
+  aliases: [],
+  agrs: true,
+  execute() {},
+};
+```
+
 # Packages
 
 - [discord-music-player](https://www.npmjs.com/package/discord-music-player)

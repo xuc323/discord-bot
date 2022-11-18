@@ -1,19 +1,24 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-    name: "server",
-    description: "Display server info.",
+    name: "user",
+    description: "Display user info.",
     args: false,
+    category: "basic",
     execute(message, args, client) {
-        const { name, memberCount, createdAt } = message.guild;
-        const icon = message.guild.iconURL();
+        const { createdAt, id, username, tag } = message.author;
+        const icon = message.author.avatarURL();
         const emb = new MessageEmbed()
-            .setTitle(`Server info for \`${name}\``)
+            .setTitle(`User info for \`${username}\``)
             .setThumbnail(icon)
             .addFields(
                 [{
-                    name: "Members ",
-                    value: memberCount.toString()
+                    name: "ID ",
+                    value: id
+                },
+                {
+                    name: "Tag ",
+                    value: tag
                 },
                 {
                     name: "Created at ",
