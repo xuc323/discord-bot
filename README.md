@@ -59,7 +59,9 @@ module.exports = {
   category: "",
   aliases: [],
   agrs: true,
-  execute() {},
+  execute() {
+    // code to execute
+  },
 };
 ```
 

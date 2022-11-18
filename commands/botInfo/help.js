@@ -1,4 +1,4 @@
-// obtain prefix from the environment
+const { Message, Client } = require("discord.js");
 const prefix = process.env.PREFIX;
 
 module.exports = {
@@ -7,10 +7,17 @@ module.exports = {
     usage: "[command name]",
     aliases: ["h"],
     category: "basic",
+    /**
+     * help command to get information about what the bot can do
+     * @param {Message} message 
+     * @param {string[]} args 
+     * @param {Client} client 
+     * @returns 
+     */
     execute(message, args, client) {
         // contains all the commands and descriptions
         const data = [];
-        const { commands } = message.client;
+        const { commands } = client;
         if (!args.length) {
             // no args, return all commands
             data.push("Supported commands:\n");
@@ -42,7 +49,7 @@ module.exports = {
                 data.push(category[cat].cmd.join("\n"));
             }
 
-            data.push(`\nYou can send \`${prefix}help [command name]\` to get info of a specific command.`);
+            data.push(`\nYou can send \`${prefix}help ${this.usage}\` to get info of a specific command.`);
         } else {
             // args, return the specific command
             const name = args[0].toLowerCase();
@@ -51,7 +58,7 @@ module.exports = {
 
             if (!command) {
                 // the command doesn't exist, send error message to channel
-                return message.channel.send(`\`${args[0]}\` is not a valid command. Type \`${prefix}help\` for more information.`);
+                return message.channel.send(`\`${args[0]}\` is not a valid command. Type \`${prefix}${this.name}\` for more information.`);
             }
 
             // command exists

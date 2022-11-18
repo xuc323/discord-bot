@@ -54,14 +54,18 @@ client.once('ready', () => {
     console.log(`Bot is online! Logged in as ${client.user.tag}!`);
 });
 /**
- *  END CREATING BOT CLIENT
+ * END CREATING BOT CLIENT
  */
 
 /**
  * START CREATING PLAYER CLIENT
  */
 // create an instance of music player by passing in discord client and attach to bot client
-client.player = new Player(client);
+client.player = new Player(client, {
+    leaveOnEmpty: true,
+    leaveOnEnd: false,
+    leaveOnStop: false
+});
 
 // register events
 const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));

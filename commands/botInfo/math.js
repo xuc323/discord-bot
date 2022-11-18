@@ -1,9 +1,18 @@
+const { Message, Client } = require("discord.js");
+
 module.exports = {
     name: "math",
     description: "Perform math calculation. (+-*/%^)",
     args: true,
     usage: "[num1] [operator] [num2]",
     category: "math",
+    /**
+     * performs basic math operations
+     * @param {Message} message 
+     * @param {string[]} args 
+     * @param {Client} client 
+     * @returns 
+     */
     execute(message, args, client) {
         if (args.length != 3) {
             return message.channel.send(`Please follow the format: \`${this.usage}\``);

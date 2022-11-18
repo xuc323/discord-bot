@@ -71,20 +71,20 @@ class Database {
      * and user into into database. Each insertion returns
      * a promise that resolves into unique id, and it's necessary
      * for the request table.
-     * @param {Object} guild 
-     * @param {BigInt} guild.id the guild id from discord
-     * @param {String} guild.name the guild name from discord
-     * @param {Object} song
-     * @param {String} song.name the song name from youtube
-     * @param {String} song.url the song url from youtube
-     * @param {String} song.author the song author from youtube
-     * @param {Object} user
-     * @param {String} user.username the user name from discord
-     * @param {String} user.discriminator the user discriminator from discord
-     * @param {BigInt} user.id the user id from discord
+     * @param {object} guild 
+     * @param {bigint} guild.id the guild id from discord
+     * @param {string} guild.name the guild name from discord
+     * @param {object} song
+     * @param {string} song.name the song name from youtube
+     * @param {string} song.url the song url from youtube
+     * @param {string} song.author the song author from youtube
+     * @param {object} user
+     * @param {string} user.username the user name from discord
+     * @param {string} user.discriminator the user discriminator from discord
+     * @param {bigint} user.id the user id from discord
      */
     playSongInsert(guild, song, user) {
-        const gid_promise = this.#guildInsert(guild.gid, guild.name);
+        const gid_promise = this.#guildInsert(guild.id, guild.name);
         const sid_promise = this.#songInsert(song.name, song.url, song.author);
         const uid_promise = this.#userInsert(user.username, user.discriminator, user.id);
         Promise.all([gid_promise, sid_promise, uid_promise]).then((values) => {
@@ -97,11 +97,11 @@ class Database {
 
     /**
      * helper function to insert guild information into database
-     * @param {BigInt} gid 
-     * @param {String} name 
+     * @param {bigint} id 
+     * @param {string} name 
      * @returns 
      */
-    #guildInsert(gid, name) {
+    #guildInsert(id, name) {
         // prepare query statement
         const statement = `
             INSERT INTO guilds(id, name)
@@ -113,15 +113,15 @@ class Database {
         `;
 
         // insert guild into database
-        const values = [gid, name];
+        const values = [id, name];
         return this.client.query(statement, values);
     }
 
     /**
      * 
-     * @param {String} name 
+     * @param {string} name 
      * @param {URL} url 
-     * @param {String} author 
+     * @param {string} author 
      * @returns 
      */
     #songInsert(name, url, author) {
@@ -142,9 +142,9 @@ class Database {
 
     /**
      * 
-     * @param {String} username 
-     * @param {Number} discriminator 
-     * @param {BigInt} id 
+     * @param {string} username 
+     * @param {number} discriminator 
+     * @param {bigint} id 
      * @returns 
      */
     #userInsert(username, discriminator, id) {

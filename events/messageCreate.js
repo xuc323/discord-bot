@@ -1,7 +1,14 @@
+const { Message, Client } = require("discord.js");
 const prefix = process.env.PREFIX;
 
 module.exports = {
     name: "messageCreate",
+    /**
+     * 
+     * @param {Message} message 
+     * @param {Client} client 
+     * @returns 
+     */
     execute(message, client) {
         // bot will not respond to message without prefix "!" or message from itself
         if (!message.content.startsWith(prefix) || message.author.bot) {
