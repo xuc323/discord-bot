@@ -2,7 +2,7 @@ const ytdl = require("ytdl-core");
 
 module.exports = {
     name: "play",
-    description: "List all commands or info about a specific command.",
+    description: "Play the music from Youtube link",
     aliases: ["p"],
     args: true,
     usage: "[url]",
