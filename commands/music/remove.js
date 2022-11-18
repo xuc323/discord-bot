@@ -1,7 +1,9 @@
 module.exports = {
-    name: "pause",
-    description: "Pause the queue.",
-    args: false,
+    name: "remove",
+    description: "Remove the music from the queue.",
+    aliases: ["delete", "d"],
+    args: true,
+    usage: "[music number]",
     execute(message, args, client, guildQueue) {
         if (guildQueue) {
             // the queue exists
@@ -9,11 +11,12 @@ module.exports = {
             const channel = guildQueue.data.msgChannel;
             if (message.channel === channel) {
                 // the message is from the same channel the queue was created
-                const status = guildQueue.setPaused(true);
-                if (status) {
-                    message.channel.send("The queue is now paused!");
+                const num = parseInt(args[0]);
+                const song = guildQueue.remove(num - 1);
+                if (song) {
+                    message.channel.send(`Song ${song.name} is removed from the queue.`);
                 } else {
-                    message.channel.send("ERROR: Failed to pause the queue.");
+                    message.channel.send(`ERROR: Can't remove the song at index \`${num}\``);
                 }
             } else {
                 // the message is not from the same channel the queue was created
@@ -21,7 +24,7 @@ module.exports = {
             }
         } else {
             // the queue doesn't exist
-            message.channel.send("ERROR: Queue is empty, can't perform \`pause\`.");
+            message.channel.send("ERROR: Queue is empty, can't perform \`delete/remove\`.");
         }
     }
 }
