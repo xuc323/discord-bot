@@ -1,12 +1,10 @@
-const ytdl = require("ytdl-core");
-
 module.exports = {
     name: "play",
     description: "Play the music from Youtube link",
     aliases: ["p"],
     args: true,
     usage: "[url]",
-    execute(message, args) {
+    execute(message, args, client) {
         const voiceChannel = message.member.voice.channel;
         if (!voiceChannel) {
             return message.reply("Seems that you are not in one of the voice channels. Join one and try again!");
