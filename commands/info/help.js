@@ -1,4 +1,4 @@
-const prefix = process.env.PREFIX;
+const { prefix } = process.env.PREFIX;
 
 module.exports = {
     name: "help",
@@ -35,7 +35,7 @@ module.exports = {
                 data.push(`**Description:** ${command.description}`);
             }
             if (command.usage) {
-                data.push(`**Usage:** ${predix}${command.name} ${command.usage}`);
+                data.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
             }
             message.reply(data, { split: true });
         }
