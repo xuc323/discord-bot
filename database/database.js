@@ -181,6 +181,27 @@ class Database {
         const values = [gid, sid, uid];
         return this.client.query(statement, values);
     }
+
+    getRecentSongs(gid, limit) {
+        // prepare query statement
+        const statement = `
+            WITH request AS (
+                SELECT requests.date, songs.name, songs.url, songs.author, users.id, guilds.id AS guild_id
+                    FROM requests
+                    LEFT JOIN songs ON requests.sid = songs.sid
+                    LEFT JOIN users ON requests.uid = users.uid
+                    LEFT JOIN guilds ON requests.gid = guilds.gid
+                    ORDER BY requests.date DESC
+            )
+            SELECT * FROM request
+                WHERE request.guild_id = $1
+                LIMIT $2;
+        `;
+
+        // insert request into database
+        const values = [gid, limit];
+        return this.client.query(statement, values);
+    }
 }
 
 module.exports = Database;

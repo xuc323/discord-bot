@@ -34,6 +34,6 @@ module.exports = {
             str.push(seconds + 's');
         }
 
-        message.channel.send(`${client.user.tag} has been up for ${str.join(" ")}`);
+        message.channel.send(`**${client.user.username}** has been up for ${str.join(" ")}.`);
     }
 }
