@@ -6,6 +6,7 @@ module.exports = {
     description: "Loop the queue.",
     aliases: ["l"],
     args: false,
+    category: "music",
     execute(message, args, client) {
 
         let queue; // the queue instance might be undefined

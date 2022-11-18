@@ -6,6 +6,7 @@ module.exports = {
     description: "List all commands or info about a specific command.",
     usage: "[command name]",
     aliases: ["h"],
+    category: "basic",
     execute(message, args, client) {
         // contains all the commands and descriptions
         const data = [];
@@ -13,8 +14,34 @@ module.exports = {
         if (!args.length) {
             // no args, return all commands
             data.push("Supported commands:\n");
-            // map through all the commands and join by new lines
-            data.push(commands.map(command => `**${command.name}** ${command.description}`).join("\n"));
+            // object to store different categories of commands
+            const category = {
+                "basic": { "message": "Basic commands", "cmd": [] },
+                "music": { "message": "Music commands", "cmd": [] },
+                "other": { "message": "Other commands", "cmd": [] }
+            };
+
+            // for each command, add to the correct category
+            commands.forEach((command) => {
+                switch (command.category) {
+                    case "basic":
+                        category.basic.cmd.push(`\t**${command.name}** ${command.description}`);
+                        break;
+                    case "music":
+                        category.music.cmd.push(`\t**${command.name}** ${command.description}`);
+                        break;
+                    default:
+                        category.other.cmd.push(`\t**${command.name}** ${command.description}`);
+                        break;
+                }
+            });
+
+            // push to data to send back
+            for (const cat in category) {
+                data.push(`**${category[cat].message}**:`);
+                data.push(category[cat].cmd.join("\n"));
+            }
+
             data.push(`\nYou can send \`${prefix}help [command name]\` to get info of a specific command.`);
         } else {
             // args, return the specific command
@@ -36,6 +63,10 @@ module.exports = {
             if (command.description) {
                 // the command has description, include in data
                 data.push(`**Description:** ${command.description}`);
+            }
+            if (command.category) {
+                // the command has category, include in data
+                data.push(`**Category**: ${command.category}`);
             }
             if (command.usage) {
                 // the command has usage, include in data "command + usage"
