@@ -6,7 +6,7 @@ const client = new Discord.Client();
 const fs = require("fs");
 // dotenv file
 require("dotenv").config({ path: ".env" });
-const prefix = process.env.PREFIX;
+// const prefix = process.env.PREFIX;
 
 // finding events
 const eventFiles = fs.readdirSync("./events").filter((file) => file.endsWith(".js"));
@@ -17,7 +17,7 @@ for (const file of eventFiles) {
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args, client));
     } else {
-        client.on(event.name, (...args) => event.execute(...args, client, prefix));
+        client.on(event.name, (...args) => event.execute(...args, client));
     }
 }
 

@@ -9,8 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/opus": "^0.5.3",
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
-    "fs": "^0.0.1-security"
+    "ffmpeg-static": "^4.3.0",
+    "fs": "^0.0.1-security",
+    "ytdl-core": "^4.8.2"
   }
 }
