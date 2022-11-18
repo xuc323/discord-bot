@@ -33,12 +33,12 @@ module.exports = {
                 requestedBy: message.author,
                 shuffle: true
             }).catch((err) => {
-                console.log(`MUSIC PLAY ERROR: ${err.name} ${err.message}`);
-                message.channel.send(err.message);
+                console.log(`MUSIC PLAY ERROR: ${err}`);
+                message.channel.send(err);
             });
         }).catch((err) => {
-            console.log(`MUSIC JOIN ERROR: ${err.name} ${err.message}`);
-            message.channel.send(err.message);
+            console.log(`MUSIC JOIN ERROR: ${err}`);
+            message.channel.send(err);
         });
     }
 }

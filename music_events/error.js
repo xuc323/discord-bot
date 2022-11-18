@@ -11,6 +11,6 @@ module.exports = {
      */
     execute(error, queue, client) {
         queue.data?.msgChannel?.send(`ERROR: an unknown error occured..`);
-        console.log(`[${queue.guild.name} | ${queue.guild.id}]: MUSIC EVENT ERROR: ${error.name} ${error.message}`);
+        console.log(`[${queue.guild.name} | ${queue.guild.id}]: MUSIC EVENT ERROR: ${error}`);
     }
 }

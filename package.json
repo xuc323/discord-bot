@@ -1,13 +1,16 @@
 {
   "name": "discord-bot",
-  "version": "1.0.0",
-  "description": "Simple discord bot",
+  "version": "1.0.1",
+  "description": "Simple discord bot that also plays music.",
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
     "test": "nodemon main.js"
   },
   "author": "",
+  "engines": {
+    "node": ">=16.9.0"
+  },
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
