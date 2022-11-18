@@ -9,6 +9,9 @@ const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
 // postgres database
 const { sql } = require("./database/database.js");
+// web server
+const { server } = require("./web/server.js");
+server();
 
 // create an instance of a discord client
 const client = new Client({
