@@ -5,7 +5,6 @@ module.exports = {
     args: false,
     execute(message, args, client, guildQueue) {
         const song = guildQueue.skip();
-        console.log(song);
         if (song) {
             message.channel.send(`**${song.name}** was skipped!`);
         }
