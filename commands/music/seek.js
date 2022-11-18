@@ -1,3 +1,5 @@
+const { queueCheck } = require("../../utils/music");
+
 module.exports = {
     name: "seek",
     description: "Fast forward the song.",
@@ -5,29 +7,26 @@ module.exports = {
     aliases: ["fastforward", "ff"],
     usage: "[time in seconds]",
     execute(message, args, client) {
-        // get queue for the guild id
-        const guildQueue = client.player.getQueue(message.guild.id);
 
-        if (guildQueue) {
+        let queue; // the queue instance might be undefined
+        try {
+            queue = queueCheck(message, client);
+        } catch (err) {
+            return message.channel.send(err.message);
+        }
+
+        if (queue) {
             // the queue exists
-            // retrive the initial message channel from the queue
-            const channel = guildQueue.data.msgChannel;
-            if (message.channel === channel) {
-                // the message is from the same channel the queue was created
-                const time = parseInt(args[0]);
-                const status = guildQueue.seek(time * 1000);
-                if (status) {
-                    message.channel.send(`Fast forwarded ${time} seconds`);
-                } else {
-                    message.channel.send("ERROR: Failed to fast forward.");
-                }
+            const time = parseInt(args[0]);
+            const status = queue.seek(time * 1000);
+            if (status) {
+                message.channel.send(`MUSIC STATUS: Fast forwarded ${time} seconds.`);
             } else {
-                // the message is not from the same channel the queue was created
-                message.channel.send(`The queue was created in another text channel.\nPlease head to channel ${channel} for music commands.`);
+                message.channel.send("ERROR: Failed to fast forward. Try again later.");
             }
         } else {
             // the queue doesn't exist
-            message.channel.send("ERROR: Queue is empty, can't perform \`seek/fastforward\`.");
+            message.channel.send("WARNING: Queue is empty, can't perform \`seek/fastforward\`.");
         }
     }
 }

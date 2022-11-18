@@ -4,9 +4,10 @@ const { Client, Intents, Collection } = require("discord.js");
 const { Player } = require("discord-music-player");
 // import file system module
 const { readdirSync } = require("fs");
+// import database module
+const Database = require("./utils/database");
 // dotenv file
-const dotenv = require("dotenv");
-dotenv.config({ path: ".env" });
+require("dotenv").config({ path: ".env" });
 
 // create an instance of a discord client
 const client = new Client({
@@ -21,6 +22,11 @@ const client = new Client({
 const player = new Player(client);
 // client now has player attribute
 client.player = player;
+
+// create an instance of database
+const db = new Database(process.env.DATABASE_URL);
+// client now has database attribute
+client.postgres = db;
 
 // MUSIC PLAYER EVENTS
 const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));
@@ -54,6 +60,9 @@ for (const file of eventFiles) {
 // ready event to fire only once
 client.once('ready', () => {
     console.log(`Bot is online! Logged in as ${client.user.tag}!`);
+});
+client.once('guildCreate', (guild) => {
+    guild.systemChannel.send("Thanks for inviting me to your server!\nCommands start with `!`. Type `!help` for more information.");
 });
 
 // log in using token
