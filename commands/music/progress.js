@@ -10,7 +10,12 @@ module.exports = {
             const channel = guildQueue.data.msgChannel;
             if (message.channel === channel) {
                 // the message if from the same channel the queue was created
-                const bar = guildQueue.createProgressBar();
+                const bar = guildQueue.createProgressBar({
+                    time: true,
+                    size: 20,
+                    block: '==',
+                    arrow: '=>'
+                });
                 if (bar) {
                     message.channel.send(bar.prettier);
                 } else {

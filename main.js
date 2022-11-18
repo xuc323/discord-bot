@@ -1,29 +1,38 @@
 // import discord.js module
-const DiscordJS = require('discord.js');
+const { Client, Intents, Collection } = require("discord.js");
 // file system module
-const FS = require('fs');
+const { readdirSync } = require("fs");
+
 // dotenv file
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
 
 // create an instance of a discord client
-const client = new DiscordJS.Client({
+const client = new Client({
     intents: [
-        DiscordJS.Intents.FLAGS.GUILDS,
-        DiscordJS.Intents.FLAGS.GUILD_MESSAGES,
-        DiscordJS.Intents.FLAGS.GUILD_VOICE_STATES
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_VOICE_STATES
     ]
 });
 
 // music player
 const { Player } = require("discord-music-player");
-const player = new Player(client);
+const player = new Player(client, {
+    leaveOnEnd: true,
+    leaveOnStop: false,
+    leaveOnEmpty: true,
+    deafenOnJoin: false,
+    timeout: 5000,
+    volume: 100,
+    quality: 'high'
+});
 
 // client now has player attribute
 client.player = player;
 
 // music player events
-const musicEventFiles = FS.readdirSync("./music_events").filter((file) => file.endsWith(".js"));
+const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));
 for (const file of musicEventFiles) {
     const event = require(`./music_events/${file}`);
     client.player.on(event.name, (...args) => event.execute(...args));
@@ -31,11 +40,11 @@ for (const file of musicEventFiles) {
 
 // COMMANDS
 // register commands
-client.commands = new DiscordJS.Collection();
-const commandFolders = FS.readdirSync("./commands");
+client.commands = new Collection();
+const commandFolders = readdirSync("./commands");
 // loop through all folders in commands
 for (const folder of commandFolders) {
-    const commandFiles = FS.readdirSync(`./commands/${folder}`).filter((file) => file.endsWith(".js"));
+    const commandFiles = readdirSync(`./commands/${folder}`).filter((file) => file.endsWith(".js"));
     // loop through all .js files
     for (const file of commandFiles) {
         const command = require(`./commands/${folder}/${file}`);
@@ -45,7 +54,7 @@ for (const folder of commandFolders) {
 
 // EVENTS
 // finding events
-const eventFiles = FS.readdirSync("./events").filter((file) => file.endsWith(".js"));
+const eventFiles = readdirSync("./events").filter((file) => file.endsWith(".js"));
 // loop through all .js files
 for (const file of eventFiles) {
     const event = require(`./events/${file}`);
