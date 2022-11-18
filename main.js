@@ -11,8 +11,9 @@ const { Player } = require("discord-music-player");
 const player = new Player(client, {
     leaveOnEmpty: true,
     leaveOnEnd: true,
-    leaveOnStop: false,
-    timeout: 0,
+    leaveOnStop: true,
+    timeout: 5000,
+    deafenOnJoin: true,
     volume: 100,
     quality: "high"
 });
