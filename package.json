@@ -8,7 +8,8 @@
   "main": "main.js",
   "scripts": {
     "start": "node server.js",
-    "test": "nodemon main.js"
+    "test": "nodemon main.js",
+    "bot": "node main.js"
   },
   "author": "",
   "license": "ISC",
