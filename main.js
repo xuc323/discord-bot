@@ -1,11 +1,14 @@
 // import discord.js module
 const { Client, Intents, Collection } = require("discord.js");
-// file system module
+// import music player
+const { Player } = require("discord-music-player");
+// import file system module
 const { readdirSync } = require("fs");
-
 // dotenv file
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
+// postgres database
+const { sql } = require("./database/database.js");
 
 // create an instance of a discord client
 const client = new Client({
@@ -16,26 +19,21 @@ const client = new Client({
     ]
 });
 
-// music player
-const { Player } = require("discord-music-player");
-const player = new Player(client, {
-    leaveOnEnd: true,
-    leaveOnStop: false,
-    leaveOnEmpty: true,
-    deafenOnJoin: false,
-    timeout: 5000,
-    volume: 100,
-    quality: 'high'
-});
-
+// create an instance of music player by passing in discord client
+const player = new Player(client);
 // client now has player attribute
 client.player = player;
 
-// music player events
+// create an instance of postgres database by passing in database url
+const postgres = sql(process.env.DATABASE_URL);
+// client now has postgres attribute
+client.postgres = postgres;
+
+// MUSIC PLAYER EVENTS
 const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));
 for (const file of musicEventFiles) {
     const event = require(`./music_events/${file}`);
-    client.player.on(event.name, (...args) => event.execute(...args));
+    client.player.on(event.name, (...args) => event.execute(...args, client));
 }
 
 // COMMANDS
@@ -53,7 +51,6 @@ for (const folder of commandFolders) {
 }
 
 // EVENTS
-// finding events
 const eventFiles = readdirSync("./events").filter((file) => file.endsWith(".js"));
 // loop through all .js files
 for (const file of eventFiles) {
