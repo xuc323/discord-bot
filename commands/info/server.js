@@ -17,7 +17,7 @@ module.exports = {
                 value: region
             },
             {
-                name: "Create at ",
+                name: "Created at ",
                 value: createdAt
             }
         );
