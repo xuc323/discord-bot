@@ -12,6 +12,7 @@ module.exports = {
             return message.channel.send("Commands can only be executed in one of the channels.");
         }
 
+        // parse the command and arguments
         const args = message.content.slice(prefix.length).trim().split(/ +/);
         const commandName = args.shift().toLowerCase();
 
@@ -32,9 +33,12 @@ module.exports = {
             return message.channel.send(reply);
         }
 
+        // for music bot
+        let guildQueue = client.player.getQueue(message.guild.id);
+
         // execute command
         try {
-            command.execute(message, args, client);
+            command.execute(message, args, client, guildQueue);
         } catch (error) {
             console.error(error);
             message.channel.send("There was an error trying to execute that command..");
