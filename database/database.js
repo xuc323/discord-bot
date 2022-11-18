@@ -1,16 +1,10 @@
 const { Client } = require('pg');
-const { createTables, guildInsert, songInsert, userInsert, requestInsert } = require('./util');
 
 // database class
 class Database {
     constructor(url) {
         // create an instance of the database client
-        this.client = new Client({
-            connectionString: url,
-            ssl: {
-                rejectUnauthorized: false
-            }
-        });
+        this.client = new Client({ connectionString: url });
 
         // create a connection to the database
         this.client.connect((err) => {
@@ -19,7 +13,7 @@ class Database {
             } else {
                 console.log("Postgres database connected!");
                 // after connection, create table if not exists
-                createTables(this.client);
+                this.#createTables();
             }
         });
 
@@ -31,6 +25,44 @@ class Database {
         // listen for end event
         this.client.on("end", () => {
             console.log("Database connection ended.");
+        });
+    }
+
+    /**
+     * helper function to create all necessary tables
+     */
+    #createTables() {
+        // query statement to create relational table if not exists
+        const statement = `
+            CREATE TABLE IF NOT EXISTS guilds(
+                gid uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+                id BIGINT UNIQUE NOT NULL,
+                name TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS songs(
+                sid uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+                name TEXT NOT NULL,
+                url TEXT UNIQUE NOT NULL,
+                author TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS users(
+                uid uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+                username TEXT NOT NULL,
+                discriminator VARCHAR(8) NOT NULL,
+                id BIGINT UNIQUE NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS requests(
+                gid uuid NOT NULL REFERENCES guilds (gid),
+                sid uuid NOT NULL REFERENCES songs (sid),
+                uid uuid NOT NULL REFERENCES users (uid),
+                date TIMESTAMP DEFAULT now()
+            );
+        `;
+
+        this.client.query(statement, (err, res) => {
+            if (err) {
+                console.error("Error creating tables: ", err.stack);
+            }
         });
     }
 
@@ -52,15 +84,102 @@ class Database {
      * @param {BigInt} user.id the user id from discord
      */
     playSongInsert(guild, song, user) {
-        const gid_promise = guildInsert(this.client, guild.gid, guild.name);
-        const sid_promise = songInsert(this.client, song.name, song.url, song.author);
-        const uid_promise = userInsert(this.client, user.username, user.discriminator, user.id);
+        const gid_promise = this.#guildInsert(guild.gid, guild.name);
+        const sid_promise = this.#songInsert(song.name, song.url, song.author);
+        const uid_promise = this.#userInsert(user.username, user.discriminator, user.id);
         Promise.all([gid_promise, sid_promise, uid_promise]).then((values) => {
             const gid = values[0].rows[0].gid;
             const sid = values[1].rows[0].sid;
             const uid = values[2].rows[0].uid;
-            requestInsert(this.client, gid, sid, uid);
+            this.#requestInsert(gid, sid, uid);
         }).catch(err => console.error(err));
+    }
+
+    /**
+     * helper function to insert guild information into database
+     * @param {BigInt} gid 
+     * @param {String} name 
+     * @returns 
+     */
+    #guildInsert(gid, name) {
+        // prepare query statement
+        const statement = `
+            INSERT INTO guilds(id, name)
+                VALUES($1, $2)
+            ON CONFLICT (id) 
+            DO 
+                UPDATE SET name=$2
+            RETURNING gid;
+        `;
+
+        // insert guild into database
+        const values = [gid, name];
+        return this.client.query(statement, values);
+    }
+
+    /**
+     * 
+     * @param {String} name 
+     * @param {URL} url 
+     * @param {String} author 
+     * @returns 
+     */
+    #songInsert(name, url, author) {
+        // prepare query statement
+        const statement = `
+            INSERT INTO songs(name, url, author)
+                VALUES($1, $2, $3)
+            ON CONFLICT (url) 
+            DO 
+                UPDATE SET name=$1, author=$3
+            RETURNING sid;
+        `;
+
+        // insert song into database
+        const values = [name, url, author];
+        return this.client.query(statement, values);
+    }
+
+    /**
+     * 
+     * @param {String} username 
+     * @param {Number} discriminator 
+     * @param {BigInt} id 
+     * @returns 
+     */
+    #userInsert(username, discriminator, id) {
+        // prepare query statement
+        const statement = `
+            INSERT INTO users(username, discriminator, id)
+                VALUES($1, $2, $3)
+            ON CONFLICT (id) 
+            DO 
+                UPDATE SET username=$1, discriminator=$2
+            RETURNING uid;
+        `;
+
+        // insert user into database
+        const values = [username, discriminator, id];
+        return this.client.query(statement, values);
+    }
+
+    /**
+     * 
+     * @param {uuid} gid 
+     * @param {uuid} sid 
+     * @param {uuid} uid 
+     * @returns 
+     */
+    #requestInsert(gid, sid, uid) {
+        // prepare query statement
+        const statement = `
+            INSERT INTO requests(gid, sid, uid)
+                VALUES($1, $2, $3);
+        `;
+
+        // insert request into database
+        const values = [gid, sid, uid];
+        return this.client.query(statement, values);
     }
 }
 
