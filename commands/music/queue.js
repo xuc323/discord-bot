@@ -6,7 +6,7 @@ module.exports = {
     args: false,
     execute(message, args, client) {
         const queue = client.player.getQueue(message);
-        const emb = new MessageEmbed().setTitle("Queue: ");
+        const emb = new MessageEmbed().setTitle("Queue");
         if (queue) {
             for (let i = 0; i < queue.songs.length; i++) {
                 const song = queue.songs[i];
