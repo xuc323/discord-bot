@@ -7,8 +7,6 @@ const { readdirSync } = require("fs");
 // dotenv file
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
-// postgres database
-const Database = require("./database/database.js");
 
 // create an instance of a discord client
 const client = new Client({
@@ -24,16 +22,11 @@ const player = new Player(client);
 // client now has player attribute
 client.player = player;
 
-// create an instance of postgres database by passing in database url
-const database = new Database(process.env.DATABASE_URL);
-// client now has postgres attribute
-client.database = database;
-
 // MUSIC PLAYER EVENTS
 const musicEventFiles = readdirSync("./music_events").filter((file) => file.endsWith(".js"));
 for (const file of musicEventFiles) {
     const event = require(`./music_events/${file}`);
-    client.player.on(event.name, (...args) => event.execute(...args, client));
+    client.player.on(event.name, (...args) => event.execute(...args));
 }
 
 // COMMANDS
@@ -58,6 +51,7 @@ for (const file of eventFiles) {
     client.on(event.name, (...args) => event.execute(...args, client));
 }
 
+// ready event to fire only once
 client.once('ready', () => {
     console.log(`Bot is online! Logged in as ${client.user.tag}!`);
 });
