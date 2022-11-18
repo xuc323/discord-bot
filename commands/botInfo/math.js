@@ -8,27 +8,32 @@ module.exports = {
         if (args.length != 3) {
             return message.channel.send(`Please follow the format: \`${this.usage}\``);
         }
-        if (!parseFloat(args[0]) || !parseFloat(args[2])) {
+
+        const num1 = Number(args[0]);
+        const num2 = Number(args[2]);
+
+        if (!num1 || !num2) {
             return message.channel.send("Only numbers are allowed.");
         }
+
         switch (args[1]) {
             case "+":
-                message.channel.send(`${args[0]} + ${args[2]} = ${parseFloat(args[0]) + parseFloat(args[2])}`);
+                message.channel.send(`${args[0]} + ${args[2]} = ${num1 + num2}`);
                 break;
             case "-":
-                message.channel.send(`${args[0]} - ${args[2]} = ${parseFloat(args[0]) - parseFloat(args[2])}`);
+                message.channel.send(`${args[0]} - ${args[2]} = ${num1 - num2}`);
                 break;
             case "*":
-                message.channel.send(`${args[0]} * ${args[2]} = ${parseFloat(args[0]) * parseFloat(args[2])}`);
+                message.channel.send(`${args[0]} * ${args[2]} = ${num1 * num2}`);
                 break;
             case "/":
-                message.channel.send(`${args[0]} / ${args[2]} = ${parseFloat(args[0]) / parseFloat(args[2])}`);
+                message.channel.send(`${args[0]} / ${args[2]} = ${num1 / num2}`);
                 break;
             case "%":
-                message.channel.send(`${args[0]} % ${args[2]} = ${parseFloat(args[0]) % parseFloat(args[2])}`);
+                message.channel.send(`${args[0]} % ${args[2]} = ${num1 % num2}`);
                 break;
             case "^":
-                message.channel.send(`${args[0]} ^ ${args[2]} = ${Math.pow(parseFloat(args[0]), parseFloat(args[2]))}`);
+                message.channel.send(`${args[0]} ^ ${args[2]} = ${Math.pow(num1, num2)}`);
                 break;
             default:
                 message.channel.send("Unknown operator.");
