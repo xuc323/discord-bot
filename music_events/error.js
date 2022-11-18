@@ -1,6 +1,6 @@
 module.exports = {
     name: "error",
     execute(error, queue) {
-        console.log(`Error: ${error} in ${queue.guild.name}`);
+        console.log(`[${queue.guild.name} | ${queue.guild.id}]: Error: ${error}`);
     }
 }
