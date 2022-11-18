@@ -18,7 +18,7 @@ module.exports = {
 
         // if unknown command
         if (!command) {
-            return message.reply(`Unknown command: \`${message.content}\`. Type \`${prefix}help\` for more information.`);
+            return message.channel.send(`Unknown command: \`${message.content}\`. Type \`${prefix}help\` for more information.`);
         }
 
         // if command needs argument but there's none
@@ -27,7 +27,7 @@ module.exports = {
             if (command.usage) {
                 reply += `\nThe proper usage is: \`${prefix}${command.name} ${command.usage}\``;
             }
-            return message.reply(reply);
+            return message.channel.send(reply);
         }
 
         // execute command
@@ -35,7 +35,7 @@ module.exports = {
             command.execute(message, args, client);
         } catch (error) {
             console.error(error);
-            message.reply("There was an error trying to execute that command..");
+            message.channel.channel.send("There was an error trying to execute that command..");
         }
     }
 }
