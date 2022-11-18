@@ -2,7 +2,10 @@ module.exports = {
     name: "pause",
     description: "Pause the queue.",
     args: false,
-    execute(message, args, client, guildQueue) {
+    execute(message, args, client) {
+        // get queue for the guild id
+        const guildQueue = client.player.getQueue(message.guild.id);
+
         if (guildQueue) {
             // the queue exists
             // retrive the initial message channel from the queue

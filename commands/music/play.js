@@ -4,7 +4,7 @@ module.exports = {
     aliases: ["p"],
     args: true,
     usage: "[song name or url]",
-    execute(message, args, client, guildQueue) {
+    execute(message, args, client) {
         // check if the user is in a voice channel
         if (!message.member.voice.channel) {
             return message.channel.send("You must be in a voice channel to play music.");
@@ -34,12 +34,7 @@ module.exports = {
             // add music to the queue
             queue.play(args.join(" "), {
                 requestedBy: message.author
-            }).catch((err) => {
-                console.log(err);
-                if (!guildQueue) {
-                    queue.stop();
-                }
-            });
-        }).catch(err => console.log(err));
+            }).catch(err => message.channel.send(err.message));
+        }).catch(err => message.channel.send(err.message));
     }
 }
