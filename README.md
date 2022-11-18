@@ -4,7 +4,8 @@
 
 # Requirements
 
-> npm
+- git
+- npm
 
 # Usage
 
@@ -26,9 +27,24 @@ Or you can run the following command to start the bot with nodemon, so the bot w
 $ npm test
 ```
 
+# Environment Variables
+
+### Discord Application Token
+
+Obtain the Discord application token from the [Discord developer portal][2].
+
+Once the token is obtained, create a `.env` file to store the configurations. Remember to not leak those. Prefix is a special function call so the bot will not response to every single messages. You can choose any prefix as you wish.
+
+```bash
+# .env
+DISCORD_TOKEN=YOUR_TOKEN
+PREFIX=!
+```
+
 # Packages
 
 [discord-music-player][1]
 
 [0]: https://discord.com/api/oauth2/authorize?client_id=853751983683928114&permissions=8&scope=bot
 [1]: https://www.npmjs.com/package/discord-music-player
+[2]: https://discord.com/developers/applications
