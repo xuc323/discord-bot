@@ -10,8 +10,7 @@ module.exports = {
                 message.channel.send(`**${song.name}** is skipped!`);
             }
         } else {
-            message.channel.send("ERROR: Queue is empty, can't perform \`skip/next\`.")
+            message.channel.send("ERROR: Queue is empty, can't perform \`skip/next\`.");
         }
-
     }
 }

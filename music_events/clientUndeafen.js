@@ -1,6 +1,8 @@
 module.exports = {
     name: "clientUndeafen",
     execute(queue) {
-        console.log(`[${queue.guild.name} | ${queue.guild.id}]: I got undefeanded.`);
+        // retrive the initial message channel from the queue
+        const channel = queue.data.msgChannel;
+        channel.send("I got undefeanded.");
     }
 }

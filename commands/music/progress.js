@@ -10,7 +10,7 @@ module.exports = {
                 message.channel.send(bar.prettier);
             }
         } else {
-            message.channel.send("ERROR: Queue is empty, can't perform \`progress\`.")
+            message.channel.send("ERROR: Queue is empty, can't perform \`progress\`.");
         }
     }
 }

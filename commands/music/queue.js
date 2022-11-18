@@ -8,7 +8,7 @@ module.exports = {
     execute(message, args, client, guildQueue) {
         const emb = new MessageEmbed().setTitle(`Queue for ${message.guild.name}`);
         if (guildQueue) {
-            for (let i = 0; i < guildQueue.songs.length; i++) {
+            for (let i = 0; i < guildQueue.songs.length && i < 10; i++) {
                 const song = guildQueue.songs[i];
                 if (i === 0) {
                     emb.setThumbnail(song.thumbnail)
@@ -17,9 +17,9 @@ module.exports = {
                     emb.addField(`#${i + 1}`, `**Name:** ${song.name}\n**Author:** ${song.author}\n**Link:** ${song.url}\n**Requested by:** ${song.requestedBy}`);
                 }
             }
-            emb.setFooter(`Music count: ${guildQueue.songs.length}`);
+            emb.setFooter({ text: `Music count: ${guildQueue.songs.length}` });
         } else {
-            emb.setFooter("Queue is empty.")
+            emb.setFooter({ text: "Queue is empty." });
         }
         message.channel.send({ embeds: [emb] });
     }

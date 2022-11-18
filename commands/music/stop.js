@@ -8,7 +8,7 @@ module.exports = {
             guildQueue.stop();
             message.channel.send("Music stopped, the Queue is cleared!");
         } else {
-            message.channel.send("ERROR: Queue is empty, can't perform \`stop\`.")
+            message.channel.send("ERROR: Queue is empty, can't perform \`stop\`.");
         }
     }
 }
