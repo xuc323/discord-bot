@@ -1,7 +1,7 @@
 const prefix = process.env.PREFIX;
 
 module.exports = {
-    name: "message",
+    name: "messageCreate",
     execute(message, client) {
         // bot will not respond to message without prefix "!" or message from itself
         if (!message.content.startsWith(prefix) || message.author.bot) {

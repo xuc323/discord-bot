@@ -1,7 +1,9 @@
 // import discord.js module
 const Discord = require("discord.js");
 // create an instance of a discord client
-const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] });
+const client = new Discord.Client({
+    intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_VOICE_STATES]
+});
 // file system module
 const fs = require("fs");
 // dotenv file
