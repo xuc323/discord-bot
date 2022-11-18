@@ -1,0 +1,31 @@
+module.exports = {
+    name: "math",
+    description: "Perform math calculation.",
+    args: true,
+    usage: "[num1] [operator] [num2]",
+    execute(message, args) {
+        if (args.length != 3) {
+            return message.channel.send(`Please follow the format: \`${this.usage}\``);
+        }
+        if (!parseFloat(args[0]) || !parseFloat(args[2])) {
+            return message.channel.send("Only numbers are allowed.");
+        }
+        switch (args[1]) {
+            case "+":
+                message.channel.send(`${args[0]} + ${args[2]} = ${parseFloat(args[0]) + parseFloat(args[2])}`);
+                break;
+            case "-":
+                message.channel.send(`${args[0]} - ${args[2]} = ${parseFloat(args[0]) - parseFloat(args[2])}`);
+                break;
+            case "*":
+                message.channel.send(`${args[0]} * ${args[2]} = ${parseFloat(args[0]) * parseFloat(args[2])}`);
+                break;
+            case "/":
+                message.channel.send(`${args[0]} / ${args[2]} = ${parseFloat(args[0]) / parseFloat(args[2])}`);
+                break;
+            default:
+                message.channel.send("Unknown operator.");
+                break;
+        }
+    }
+}
