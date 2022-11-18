@@ -1,6 +1,6 @@
 module.exports = {
     name: "playlist",
-    description: "Play the music in the playlist by name or url.",
+    description: "Play the music in the playlist by url.",
     aliases: ["pl"],
     args: true,
     usage: "[playlist url]",
@@ -20,7 +20,7 @@ module.exports = {
             if (message.channel === queue.data.msgChannel) {
                 // the message is from the same channel the queue was created
                 queue.playlist(args.join(" "), {
-                    requestedBy: message.author.tag
+                    requestedBy: message.author
                 }).catch(err => message.channel.send(err.message));
             } else {
                 // the message is not from the same channel the queue was created
