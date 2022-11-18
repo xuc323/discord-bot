@@ -1,19 +1,20 @@
 const { Client } = require("pg");
 
 const statement = `
+    DROP TABLE guilds, songs, requests;
     CREATE TABLE IF NOT EXISTS guilds(
         uid uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-        guildId BIGINT NOT NULL,
+        guildId BIGINT UNIQUE NOT NULL,
         name TEXT NOT NULL
     );
     CREATE TABLE IF NOT EXISTS songs(
         sid uuid DEFAULT gen_random_uuid() PRIMARY KEY,
         name TEXT NOT NULL,
-        url TEXT NOT NULL
+        url TEXT UNIQUE NOT NULL
     );
     CREATE TABLE IF NOT EXISTS requests(
-        uid uuid NOT NULL,
-        sid uuid NOT NULL,
+        uid uuid NOT NULL REFERENCES guilds (uid),
+        sid uuid NOT NULL REFERENCES songs (sid),
         userId TEXT NOT NULL,
         date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -55,4 +56,4 @@ module.exports = {
 
         return client;
     }
-};
+}
