@@ -1,7 +1,7 @@
-import { Message } from "discord.js";
-import { command, MyClient } from "../../type";
+import { CommandInteraction, Message, SlashCommandBuilder } from "discord.js";
+import { command, MyClient, slashCmd } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "ping",
   description: "Return bot's latency in ms.",
   args: false,
@@ -20,4 +20,23 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+const slash: slashCmd = {
+  data: new SlashCommandBuilder()
+    .setName("ping")
+    .setDescription("Returen latency in miliseconds."),
+  execute(interaction: CommandInteraction) {
+    const ping = interaction.client.ws.ping;
+    interaction
+      .reply({ content: "Pinging...", fetchReply: true })
+      .then((message: Message) => {
+        interaction.editReply(
+          `Websocket heartbeat: ${ping}ms.\nRoundtrip latency: ${
+            message.createdTimestamp - interaction.createdTimestamp
+          }ms.`
+        );
+      })
+      .catch((err) => console.error(err));
+  },
+};
+
+export { basic, slash };

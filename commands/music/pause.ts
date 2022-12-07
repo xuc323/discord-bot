@@ -2,7 +2,7 @@ import { DMPError } from "discord-music-player";
 import { Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "pause",
   description: "Pause the queue.",
   args: false,
@@ -41,4 +41,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

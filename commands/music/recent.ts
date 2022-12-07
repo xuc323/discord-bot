@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "recent",
   description:
     "(dev) Print the songs played previously. (Up to 25, default is 5)",
@@ -47,4 +47,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

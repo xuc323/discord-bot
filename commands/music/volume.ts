@@ -2,7 +2,7 @@ import { DMPError } from "discord-music-player";
 import { Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "volume",
   description: "Display or adjust the volume of the music.",
   aliases: ["v"],
@@ -52,4 +52,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

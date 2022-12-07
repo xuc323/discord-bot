@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "user",
   description: "Display user info.",
   args: false,
@@ -28,4 +28,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

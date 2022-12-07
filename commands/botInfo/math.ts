@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "math",
   description: "Perform math calculation. (+-*/%^)",
   args: true,
@@ -48,4 +48,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

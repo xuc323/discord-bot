@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { command, MyClient } from "../../type";
 const prefix = process.env.PREFIX ?? "!";
 
-const cmd: command = {
+const basic: command = {
   name: "help",
   description: "List all commands or info about a specific command.",
   usage: "[command name]",
@@ -68,4 +68,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

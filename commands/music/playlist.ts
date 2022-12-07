@@ -1,7 +1,7 @@
 import { GuildChannelResolvable, Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "playlist",
   description: "Play the music in the playlist by url.",
   aliases: ["pl"],
@@ -33,4 +33,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

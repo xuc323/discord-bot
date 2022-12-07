@@ -2,7 +2,7 @@ import { Player, PlayerEvents } from "discord-music-player";
 import {
   Client,
   Collection,
-  Interaction,
+  CommandInteraction,
   Message,
   SlashCommandBuilder,
 } from "discord.js";
@@ -12,6 +12,7 @@ export interface MyClient extends Client {
   player?: Player;
   postgres?: Database;
   commands?: Collection<string, command>;
+  slashCommands?: Collection<string, slashCmd>;
 }
 
 export interface command {
@@ -23,9 +24,9 @@ export interface command {
   execute: (message: Message, args: string[], client: MyClient) => any;
 }
 
-export interface slashCommand {
+export interface slashCmd {
   readonly data: SlashCommandBuilder;
-  execute: (interaction: Interaction) => any;
+  execute: (interaction: CommandInteraction) => any;
 }
 
 export interface event {

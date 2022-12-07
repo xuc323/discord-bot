@@ -16,7 +16,7 @@ import Database from "./database";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
-import { command, event, MyClient, playerEvent } from "./type";
+import { command, event, MyClient, playerEvent, slashCmd } from "./type";
 
 /**
  * START CREATING BOT CLIENT
@@ -37,6 +37,7 @@ const client: MyClient = new Client({
 
 // register commands
 client.commands = new Collection();
+client.slashCommands = new Collection();
 const commandFolderPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(commandFolderPath);
 // loop through all folders in commands
@@ -48,8 +49,13 @@ for (const folder of commandFolders) {
   // loop through all .ts files
   for (const file of commandFiles) {
     const commandFilePath = path.join(commandSubFolderPath, file);
-    const command: command = require(commandFilePath);
-    client.commands?.set(command.name, command);
+    const command = require(commandFilePath);
+    const basic: command = command.basic;
+    const slash: slashCmd = command.slash;
+    client.commands.set(basic.name, basic);
+    if (slash) {
+      client.slashCommands.set(slash.data.name, slash);
+    }
   }
 }
 

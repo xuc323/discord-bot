@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { DMPError, RepeatMode } from "discord-music-player";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "reset",
   description: "Reset to not looping.",
   args: false,
@@ -39,4 +39,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

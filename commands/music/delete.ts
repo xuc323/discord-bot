@@ -2,7 +2,7 @@ import { DMPError } from "discord-music-player";
 import { Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "delete",
   description: "Remove the music from the queue.",
   aliases: ["remove", "d"],
@@ -58,4 +58,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

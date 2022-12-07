@@ -8,6 +8,7 @@
     "dev": "ts-node main.ts",
     "test": "nodemon main.ts",
     "build": "tsc",
+    "deploy": "ts-node deploy.ts",
     "clean": "rm -rf ./build"
   },
   "author": "",

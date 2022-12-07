@@ -2,7 +2,7 @@ import { DMPError } from "discord-music-player";
 import { Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "progress",
   description: "Create a progress bar for the current song.",
   aliases: ["prog"],
@@ -34,4 +34,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

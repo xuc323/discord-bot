@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "queue",
   description: "List all songs in the queue. (Up to 25, default is 5)",
   aliases: ["q"],
@@ -58,4 +58,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

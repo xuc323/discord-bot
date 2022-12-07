@@ -2,7 +2,7 @@ import { DMPError } from "discord-music-player";
 import { Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "shuffle",
   description: "Shuffle the queue.",
   aliases: ["shuf"],
@@ -42,4 +42,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

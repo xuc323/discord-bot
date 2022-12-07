@@ -8,13 +8,23 @@ const e: event = {
       return;
     }
 
-    const command = client.commands?.get(interaction.commandName);
+    const command = client.slashCommands?.get(interaction.commandName);
     if (!command) {
-      console.log(`No command matching ${interaction.commandName} was found.`);
+      console.error(
+        `No command matching ${interaction.commandName} was found.`
+      );
       return;
     }
 
-    // command.execute(interaction);
+    try {
+      command.execute(interaction);
+    } catch (error) {
+      console.error(error);
+      interaction.reply({
+        content: "There was an error trying to execute that command..",
+        ephemeral: true,
+      });
+    }
   },
 };
 

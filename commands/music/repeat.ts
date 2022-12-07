@@ -2,7 +2,7 @@ import { Message } from "discord.js";
 import { DMPError, RepeatMode } from "discord-music-player";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "repeat",
   description: "Repeat the current song.",
   aliases: ["r"],
@@ -42,4 +42,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };

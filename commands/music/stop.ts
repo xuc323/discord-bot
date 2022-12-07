@@ -2,7 +2,7 @@ import { DMPError } from "discord-music-player";
 import { Message } from "discord.js";
 import { command, MyClient } from "../../type";
 
-const cmd: command = {
+const basic: command = {
   name: "stop",
   description: "Stop the music and leave the voice channel.",
   aliases: ["s"],
@@ -36,4 +36,4 @@ const cmd: command = {
   },
 };
 
-export = cmd;
+export { basic };
