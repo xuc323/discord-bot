@@ -13,4 +13,4 @@ const e: playerEvent = {
   },
 };
 
-export default e;
+export = e;

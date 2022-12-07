@@ -3,7 +3,7 @@ import { command, MyClient } from "../../type";
 
 const cmd: command = {
   name: "list",
-  description: "(beta)",
+  description: "(dev)",
   args: false,
   execute(message: Message, args: string[], client: MyClient) {
     message.channel.send(
@@ -12,4 +12,4 @@ const cmd: command = {
   },
 };
 
-export default cmd;
+export = cmd;

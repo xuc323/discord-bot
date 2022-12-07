@@ -50,4 +50,4 @@ const cmd: command = {
   },
 };
 
-export default cmd;
+export = cmd;

@@ -1,5 +1,11 @@
 import { Player, PlayerEvents } from "discord-music-player";
-import { Client, Collection, Message } from "discord.js";
+import {
+  Client,
+  Collection,
+  Interaction,
+  Message,
+  SlashCommandBuilder,
+} from "discord.js";
 import Database from "./database";
 
 export interface MyClient extends Client {
@@ -17,8 +23,14 @@ export interface command {
   execute: (message: Message, args: string[], client: MyClient) => any;
 }
 
+export interface slashCommand {
+  readonly data: SlashCommandBuilder;
+  execute: (interaction: Interaction) => any;
+}
+
 export interface event {
   name: string;
+  once?: boolean;
   execute: (client: MyClient, ...args: any[]) => any;
 }
 

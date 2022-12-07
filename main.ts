@@ -6,7 +6,8 @@ import {
   ActivityType,
 } from "discord.js";
 // import file system module
-import { readdirSync } from "fs";
+import fs from "node:fs";
+import path from "node:path";
 // import music player module
 import { Player } from "discord-music-player";
 // import database module
@@ -36,33 +37,37 @@ const client: MyClient = new Client({
 
 // register commands
 client.commands = new Collection();
-const commandFolders = readdirSync(`${__dirname}/commands`);
+const commandFolderPath = path.join(__dirname, "commands");
+const commandFolders = fs.readdirSync(commandFolderPath);
 // loop through all folders in commands
 for (const folder of commandFolders) {
-  const commandFiles = readdirSync(`${__dirname}/commands/${folder}`);
+  const commandSubFolderPath = path.join(commandFolderPath, folder);
+  const commandFiles = fs
+    .readdirSync(commandSubFolderPath)
+    .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
   // loop through all .ts files
   for (const file of commandFiles) {
-    import(`${__dirname}/commands/${folder}/${file}`).then((e) => {
-      const cmd: command = e.default;
-      client.commands?.set(cmd.name, cmd);
-    });
+    const commandFilePath = path.join(commandSubFolderPath, file);
+    const command: command = require(commandFilePath);
+    client.commands?.set(command.name, command);
   }
 }
 
 // register events
-const eventFiles = readdirSync(`${__dirname}/events`);
-// loop through all .js files
+const eventFolderPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventFolderPath)
+  .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
 for (const file of eventFiles) {
-  import(`${__dirname}/events/${file}`).then((e) => {
-    const event: event = e.default;
+  const eventFilePath = path.join(eventFolderPath, file);
+  const event: event = require(eventFilePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(client, ...args));
+  } else {
     client.on(event.name, (...args) => event.execute(client, ...args));
-  });
+  }
 }
 
-// ready event to fire only once
-client.once("ready", () => {
-  console.log(`Bot is online! Logged in as ${client.user?.tag}!`);
-});
 /**
  * END CREATING BOT CLIENT
  */
@@ -80,12 +85,14 @@ client.player = new Player(client, {
 });
 
 // register events
-const musicEventFiles = readdirSync(`${__dirname}/music_events`);
+const musicEventFolderPath = path.join(__dirname, "music_events");
+const musicEventFiles = fs
+  .readdirSync(musicEventFolderPath)
+  .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
 for (const file of musicEventFiles) {
-  import(`${__dirname}/music_events/${file}`).then((e) => {
-    const event: playerEvent = e.default;
-    client.player?.on(event.name, (...args) => event.execute(client, ...args));
-  });
+  const musicEventFilePath = path.join(musicEventFolderPath, file);
+  const event: playerEvent = require(musicEventFilePath);
+  client.player?.on(event.name, (...args) => event.execute(client, ...args));
 }
 /**
  * END CREATING PLAYER CLIENT

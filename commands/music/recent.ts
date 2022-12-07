@@ -4,7 +4,7 @@ import { command, MyClient } from "../../type";
 const cmd: command = {
   name: "recent",
   description:
-    "(beta) Print the songs played previously. (Up to 25, default is 5)",
+    "(dev) Print the songs played previously. (Up to 25, default is 5)",
   args: false,
   usage: "[number of songs]",
   execute(message: Message, args: string[], client: MyClient) {
@@ -47,4 +47,4 @@ const cmd: command = {
   },
 };
 
-export default cmd;
+export = cmd;
