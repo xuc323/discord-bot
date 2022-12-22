@@ -25,9 +25,6 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    defaults:
-      run:
-        working-directory: ./html
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -38,14 +35,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build
-        run: |
-          pwd
-          npm ci && npm run build --if-present
+        run: npm ci && npm run build --if-present
+        working-directory: ./html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire folder
-          path: '.'
+          path: './html'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
