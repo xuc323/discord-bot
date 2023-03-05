@@ -1,5 +1,6 @@
-import { GuildChannelResolvable, Message } from "discord.js";
+import { GuildChannelResolvable, Message, TextChannel } from "discord.js";
 import { command, MyClient } from "../../type";
+import { DMPError } from "@jadestudios/discord-music-player";
 
 const basic: command = {
   name: "play",
@@ -14,22 +15,28 @@ const basic: command = {
         msgChannel: message.channel,
       },
     });
-
-    await queue.join(message.member?.voice.channel as GuildChannelResolvable);
+    try {
+      await queue.join(message.member?.voice.channel as GuildChannelResolvable);
+    } catch (err: any) {
+      const error: DMPError = err;
+      console.log(error);
+      return (message.channel as TextChannel).send(error.message);
+    }
     if (queue.connection?.channel != message.member?.voice.channel) {
       // the user is not in the same voice channel as the bot
-      return message.channel.send(
+      return (message.channel as TextChannel).send(
         `Music is playing in ${queue.connection?.channel}. Join or wait for it to finish.`
       );
     }
     // the user is in the same voice channel as the bot
     // add music to the queue
-    await queue
-      .play(args.join(" "), { requestedBy: message.author })
-      .catch((err) => {
-        console.log(`MUSIC PLAY ERROR: ${err}`);
-        message.channel.send(err);
-      });
+    try {
+      await queue.play(args.join(" "), { requestedBy: message.author });
+    } catch (err: any) {
+      const error: Error = err;
+      console.log(`MUSIC PLAY ERROR: ${err}`);
+      (message.channel as TextChannel).send(error.message);
+    }
   },
 };
 

@@ -1,4 +1,4 @@
-import { Player, PlayerEvents } from "discord-music-player";
+import { Player, PlayerEvents } from "@jadestudios/discord-music-player";
 import {
   Client,
   Collection,

@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { command, MyClient } from "../../type";
 
 const basic: command = {
@@ -21,10 +21,12 @@ const basic: command = {
       let limit = (args[0] && Number(args[0])) || 5;
       if (limit > 25) {
         // set limit to 25 because that's what discord allows
-        message.channel.send("The limit is 25.");
+        (message.channel as TextChannel).send("The limit is 25.");
         limit = 25;
       } else if (limit < 1) {
-        message.channel.send("Number can't be less than 1. Default to 5..");
+        (message.channel as TextChannel).send(
+          "Number can't be less than 1. Default to 5.."
+        );
         limit = 5;
       }
 
@@ -54,7 +56,7 @@ const basic: command = {
       // the queue doesn't exist
       emb.setFooter({ text: "Queue is empty." });
     }
-    message.channel.send({ embeds: [emb] });
+    (message.channel as TextChannel).send({ embeds: [emb] });
   },
 };
 

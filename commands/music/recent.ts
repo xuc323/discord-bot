@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { command, MyClient } from "../../type";
 
 const basic: command = {
@@ -8,7 +8,7 @@ const basic: command = {
   args: false,
   usage: "[number of songs]",
   execute(message: Message, args: string[], client: MyClient) {
-    return message.channel.send(
+    return (message.channel as TextChannel).send(
       "This command is currently under development, check back later!"
     );
     // // create an embed message

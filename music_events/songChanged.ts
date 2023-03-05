@@ -1,5 +1,6 @@
-import { Queue, Song } from "discord-music-player";
+import { Queue, Song } from "@jadestudios/discord-music-player";
 import { MyClient, playerEvent, queueData } from "../type";
+import { TextChannel } from "discord.js";
 
 const e: playerEvent = {
   name: "songChanged",
@@ -9,7 +10,9 @@ const e: playerEvent = {
     newSong: Song,
     oldSong: Song
   ) {
-    queue.data?.msgChannel.send(`**${newSong}** is now playing.`);
+    (queue.data?.msgChannel as TextChannel).send(
+      `**${newSong}** is now playing.`
+    );
   },
 };
 

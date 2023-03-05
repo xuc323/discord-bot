@@ -1,10 +1,11 @@
-import { Queue } from "discord-music-player";
+import { Queue } from "@jadestudios/discord-music-player";
 import { MyClient, playerEvent, queueData } from "../type";
+import { TextChannel } from "discord.js";
 
 const e: playerEvent = {
   name: "queueEnd",
   execute(client: MyClient, queue: Queue<queueData>) {
-    queue.data?.msgChannel.send("The queue has ended.");
+    (queue.data?.msgChannel as TextChannel).send("The queue has ended.");
   },
 };
 
