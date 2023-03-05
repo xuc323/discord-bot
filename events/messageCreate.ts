@@ -1,4 +1,4 @@
-import { Events, Message } from "discord.js";
+import { Events, Message, TextChannel } from "discord.js";
 import { command, event, MyClient } from "../type";
 const prefix = process.env.PREFIX ?? "!";
 
@@ -11,7 +11,7 @@ const e: event = {
     }
     // if commands are sent through dm
     if (!message.guild) {
-      return message.channel.send(
+      return (message.channel as TextChannel).send(
         "Commands can only be executed in one of the channels."
       );
     }
@@ -32,7 +32,7 @@ const e: event = {
 
     // if unknown command
     if (!command) {
-      return message.channel.send(
+      return (message.channel as TextChannel).send(
         `Unknown command: \`${message.content}\`. Type \`${prefix}help\` for more information.`
       );
     }
@@ -43,7 +43,7 @@ const e: event = {
       if (command.usage) {
         reply += `\nThe proper usage is: \`${prefix}${command.name} ${command.usage}\``;
       }
-      return message.channel.send(reply);
+      return (message.channel as TextChannel).send(reply);
     }
 
     // execute command
@@ -51,7 +51,7 @@ const e: event = {
       command.execute(message, args, client);
     } catch (error) {
       console.log(`BOT ERROR: ${error}`);
-      message.channel.send(
+      (message.channel as TextChannel).send(
         "There was an error trying to execute that command.."
       );
     }

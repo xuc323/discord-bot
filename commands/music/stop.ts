@@ -1,5 +1,5 @@
-import { DMPError } from "discord-music-player";
-import { Message } from "discord.js";
+import { DMPError } from "@jadestudios/discord-music-player";
+import { Message, TextChannel } from "discord.js";
 import { command, MyClient } from "../../type";
 
 const basic: command = {
@@ -14,7 +14,7 @@ const basic: command = {
       // the queue exists
       if (queue.connection?.channel != message.member?.voice.channel) {
         // the user is not in the same voice channel as the bot
-        return message.channel.send(
+        return (message.channel as TextChannel).send(
           `Music is playing in ${queue.connection?.channel}. Join or wait for it to finish.`
         );
       }
@@ -22,14 +22,16 @@ const basic: command = {
       // the user is in the same voice channel as the bot
       try {
         queue.stop();
-        message.channel.send("MUSIC STATUS: Music stopped, queue is cleared!");
+        (message.channel as TextChannel).send(
+          "MUSIC STATUS: Music stopped, queue is cleared!"
+        );
       } catch (err) {
         const error = err as DMPError;
-        message.channel.send(error.message);
+        (message.channel as TextChannel).send(error.message);
       }
     } else {
       // the queue doesn't exist
-      message.channel.send(
+      (message.channel as TextChannel).send(
         `WARNING: Queue is empty, can't perform \`${this.name}\`.`
       );
     }

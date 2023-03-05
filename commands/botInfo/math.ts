@@ -1,4 +1,4 @@
-import { Message } from "discord.js";
+import { Message, TextChannel } from "discord.js";
 import { command, MyClient } from "../../type";
 
 const basic: command = {
@@ -8,7 +8,7 @@ const basic: command = {
   usage: "[num1] [operator] [num2]",
   execute(message: Message, args: string[], client: MyClient) {
     if (args.length != 3) {
-      return message.channel.send(
+      return (message.channel as TextChannel).send(
         `Please follow the format: \`${this.usage}\``
       );
     }
@@ -17,32 +17,42 @@ const basic: command = {
     const num2 = Number(args[2]);
 
     if ((!num1 && num1 != 0) || (!num2 && num2 != 0)) {
-      return message.channel.send("Only numbers are allowed.");
+      return (message.channel as TextChannel).send("Only numbers are allowed.");
     }
 
     switch (args[1]) {
       case "+":
-        message.channel.send(`${args[0]} + ${args[2]} = ${num1 + num2}`);
+        (message.channel as TextChannel).send(
+          `${args[0]} + ${args[2]} = ${num1 + num2}`
+        );
         break;
       case "-":
-        message.channel.send(`${args[0]} - ${args[2]} = ${num1 - num2}`);
+        (message.channel as TextChannel).send(
+          `${args[0]} - ${args[2]} = ${num1 - num2}`
+        );
         break;
       case "*":
-        message.channel.send(`${args[0]} * ${args[2]} = ${num1 * num2}`);
+        (message.channel as TextChannel).send(
+          `${args[0]} * ${args[2]} = ${num1 * num2}`
+        );
         break;
       case "/":
-        message.channel.send(`${args[0]} / ${args[2]} = ${num1 / num2}`);
+        (message.channel as TextChannel).send(
+          `${args[0]} / ${args[2]} = ${num1 / num2}`
+        );
         break;
       case "%":
-        message.channel.send(`${args[0]} % ${args[2]} = ${num1 % num2}`);
+        (message.channel as TextChannel).send(
+          `${args[0]} % ${args[2]} = ${num1 % num2}`
+        );
         break;
       case "^":
-        message.channel.send(
+        (message.channel as TextChannel).send(
           `${args[0]} ^ ${args[2]} = ${Math.pow(num1, num2)}`
         );
         break;
       default:
-        message.channel.send("Unknown operator.");
+        (message.channel as TextChannel).send("Unknown operator.");
         break;
     }
   },

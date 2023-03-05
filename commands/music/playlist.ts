@@ -1,4 +1,4 @@
-import { GuildChannelResolvable, Message } from "discord.js";
+import { GuildChannelResolvable, Message, TextChannel } from "discord.js";
 import { command, MyClient } from "../../type";
 
 const basic: command = {
@@ -18,7 +18,7 @@ const basic: command = {
     await queue.join(message.member?.voice.channel as GuildChannelResolvable);
     if (queue.connection?.channel != message.member?.voice.channel) {
       // the user is not in the same voice channel as the bot
-      return message.channel.send(
+      return (message.channel as TextChannel).send(
         `Music is playing in ${queue.connection?.channel}. Join or wait for it to finish.`
       );
     }
@@ -28,7 +28,7 @@ const basic: command = {
       .playlist(args.join(" "), { requestedBy: message.author, shuffle: false })
       .catch((err) => {
         console.log(`MUSIC PLAY ERROR: ${err}`);
-        message.channel.send(err);
+        (message.channel as TextChannel).send(err);
       });
   },
 };

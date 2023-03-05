@@ -1,4 +1,4 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder, Message, TextChannel } from "discord.js";
 import { command, MyClient } from "../../type";
 
 const basic: command = {
@@ -24,7 +24,7 @@ const basic: command = {
           value: createdAt.toString(),
         },
       ]);
-    message.channel.send({ embeds: [emb] });
+    (message.channel as TextChannel).send({ embeds: [emb] });
   },
 };
 

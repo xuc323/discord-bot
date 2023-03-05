@@ -1,5 +1,5 @@
-import { DMPError } from "discord-music-player";
-import { Message } from "discord.js";
+import { DMPError } from "@jadestudios/discord-music-player";
+import { Message, TextChannel } from "discord.js";
 import { command, MyClient } from "../../type";
 
 const basic: command = {
@@ -15,19 +15,21 @@ const basic: command = {
       try {
         const bar = queue.createProgressBar();
         if (bar) {
-          message.channel.send(`${queue.nowPlaying?.name}\n${bar.prettier}`);
+          (message.channel as TextChannel).send(
+            `${queue.nowPlaying?.name}\n${bar.prettier}`
+          );
         } else {
-          message.channel.send(
+          (message.channel as TextChannel).send(
             "ERROR: Failed to create progress bar. Try again later."
           );
         }
       } catch (err) {
         const error = err as DMPError;
-        message.channel.send(error.message);
+        (message.channel as TextChannel).send(error.message);
       }
     } else {
       // the queue doesn't exist
-      message.channel.send(
+      (message.channel as TextChannel).send(
         `WARNING: Queue is empty, can't perform \`${this.name}\`.`
       );
     }
