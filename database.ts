@@ -20,9 +20,9 @@ class Database {
     // });
 
     // listen for connect event
-    this.pool.on("connect", (client: PoolClient) => {
-      console.log("A client has established connection!");
-    });
+    // this.pool.on("connect", (client: PoolClient) => {
+    //   console.log("A client has established connection!");
+    // });
 
     // listen for error event
     this.pool.on("error", (err: Error) => {
