@@ -1,33 +1,38 @@
-import { Client } from "pg";
+import { Pool, PoolClient } from "pg";
 
 // database class
 class Database {
-  private client: Client;
+  private pool: Pool;
 
   constructor(url: string | undefined) {
     // create an instance of the database client
-    this.client = new Client({ connectionString: url });
+    this.pool = new Pool({ connectionString: url + "?sslmode=require" });
 
     // create a connection to the database
-    this.client.connect((err: Error) => {
-      if (err) {
-        console.error("Connection error: ", err.stack);
-      } else {
-        console.log("Postgres database connected!");
-        // after connection, create table if not exists
-        this.createTables();
-      }
+    // this.client.connect((err: Error) => {
+    //   if (err) {
+    //     console.error("Connection error: ", err.stack);
+    //   } else {
+    //     console.log("Postgres database connected!");
+    //     // after connection, create table if not exists
+    //     this.createTables();
+    //   }
+    // });
+
+    // listen for connect event
+    this.pool.on("connect", (client: PoolClient) => {
+      console.log("A client has established connection!");
     });
 
     // listen for error event
-    this.client.on("error", (err: Error) => {
+    this.pool.on("error", (err: Error) => {
       console.error("ERROR: ", err.stack);
     });
 
-    // listen for end event
-    this.client.on("end", () => {
-      console.log("Database connection ended.");
-    });
+    // // listen for end event
+    // this.pool.on("end", () => {
+    //   console.log("Database connection ended.");
+    // });
   }
 
   /**
@@ -61,7 +66,7 @@ class Database {
             );
         `;
 
-    this.client.query(statement, (err, res) => {
+    this.pool.query(statement, (err, res) => {
       if (err) {
         console.error("Error creating tables: ", err.stack);
       }
@@ -75,9 +80,9 @@ class Database {
    * for the request table.
    */
   public playSongInsert(
-    guild: { id: bigint; name: string },
+    guild: { id: string; name: string },
     song: { name: string; url: string; author: string },
-    user: { username: string; discriminator: number; id: bigint }
+    user: { username: string; discriminator: string; id: string }
   ) {
     const gid_promise = this.guildInsert(guild.id, guild.name);
     const sid_promise = this.songInsert(song.name, song.url, song.author);
@@ -99,7 +104,7 @@ class Database {
   /**
    * helper function to insert guild information into database
    */
-  private guildInsert(id: bigint, name: string) {
+  private guildInsert(id: string, name: string) {
     // prepare query statement
     const statement: string = `
             INSERT INTO guilds(id, name)
@@ -112,7 +117,7 @@ class Database {
 
     // insert guild into database
     const values = [id, name];
-    return this.client.query(statement, values);
+    return this.pool.query(statement, values);
   }
 
   private songInsert(name: string, url: string, author: string) {
@@ -128,10 +133,10 @@ class Database {
 
     // insert song into database
     const values = [name, url, author];
-    return this.client.query(statement, values);
+    return this.pool.query(statement, values);
   }
 
-  private userInsert(username: string, discriminator: number, id: bigint) {
+  private userInsert(username: string, discriminator: string, id: string) {
     // prepare query statement
     const statement = `
             INSERT INTO users(username, discriminator, id)
@@ -144,7 +149,7 @@ class Database {
 
     // insert user into database
     const values = [username, discriminator, id];
-    return this.client.query(statement, values);
+    return this.pool.query(statement, values);
   }
 
   private requestInsert(gid: string, sid: string, uid: string) {
@@ -156,7 +161,7 @@ class Database {
 
     // insert request into database
     const values = [gid, sid, uid];
-    return this.client.query(statement, values);
+    return this.pool.query(statement, values);
   }
 
   public getRecentSongs(gid: string, limit: number) {
@@ -177,7 +182,7 @@ class Database {
 
     // insert request into database
     const values = [gid, limit];
-    return this.client.query(statement, values);
+    return this.pool.query(statement, values);
   }
 }
 
