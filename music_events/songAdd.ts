@@ -11,6 +11,18 @@ const e: playerEvent = {
     console.log(
       `[${queue.guild.name} | ${queue.guild.id} | ${song.requestedBy?.tag}]: ${song} ${song.url}`
     );
+    client.postgres?.playSongInsert(
+      {
+        id: queue.guild.id,
+        name: queue.guild.name,
+      },
+      { name: song.name, url: song.url, author: song.author },
+      {
+        username: song.requestedBy?.username!,
+        discriminator: song.requestedBy?.discriminator!,
+        id: song.requestedBy?.id!,
+      }
+    );
   },
 };
 
