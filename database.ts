@@ -1,4 +1,4 @@
-import { Pool, PoolClient } from "pg";
+import { Pool } from "pg";
 
 // database class
 class Database {
@@ -6,19 +6,8 @@ class Database {
 
   constructor(url: string | undefined) {
     // create an instance of the database client
-    this.pool = new Pool({ connectionString: url + "?sslmode=require" });
-
-    // create a connection to the database
-    // this.client.connect((err: Error) => {
-    //   if (err) {
-    //     console.error("Connection error: ", err.stack);
-    //   } else {
-    //     console.log("Postgres database connected!");
-    //     // after connection, create table if not exists
-    //     this.createTables();
-    //   }
-    // });
-
+    this.pool = new Pool({ connectionString: url });
+    this.createTables();
     // listen for connect event
     // this.pool.on("connect", (client: PoolClient) => {
     //   console.log("A client has established connection!");
@@ -28,11 +17,6 @@ class Database {
     this.pool.on("error", (err: Error) => {
       console.error("ERROR: ", err.stack);
     });
-
-    // // listen for end event
-    // this.pool.on("end", () => {
-    //   console.log("Database connection ended.");
-    // });
   }
 
   /**
