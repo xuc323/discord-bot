@@ -9,15 +9,15 @@ export const basic: Command = {
   aliases: ["h"],
   execute(message: Message, args: string[], client: MyClient) {
     // contains all the commands and descriptions
-    const data = [];
+    const data: string[] = [];
     const { commands } = client;
     if (!args.length) {
       // no args, return all commands
       data.push("Supported commands:\n");
       // construct command string
       data.push(
-        commands
-          ?.map(
+        commands!
+          .map(
             (command: Command) => `**${command.name}** ${command.description}`
           )
           .join("\n")

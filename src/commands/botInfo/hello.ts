@@ -5,7 +5,7 @@ import {
   SlashCommandBuilder,
   TextChannel,
 } from "discord.js";
-import { MyClient, Command, SlashCommand } from "../../type";
+import { Command, MyClient, SlashCommand } from "../../type";
 
 export const basic: Command = {
   name: "hello",

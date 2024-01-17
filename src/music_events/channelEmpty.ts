@@ -1,12 +1,12 @@
 import { Queue } from "@jadestudios/discord-music-player";
-import { PlayerEvent, MyClient, QueueData } from "../type";
 import { TextChannel } from "discord.js";
+import { MyClient, PlayerEvent, QueueData } from "../type";
 
 export const event: PlayerEvent = {
-  name: "clientDisconnect",
+  name: "channelEmpty",
   execute(client: MyClient, queue: Queue<QueueData>) {
     (queue.data?.msgChannel as TextChannel).send(
-      "I was kicked from the Voice Channel, queue ended."
+      "Everyone left the Voice Channel, queue ended."
     );
   },
 };

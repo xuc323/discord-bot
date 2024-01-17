@@ -1,5 +1,5 @@
-import { Event, MyClient } from "../type";
 import { Events, Guild } from "discord.js";
+import { Event, MyClient } from "../type";
 
 export const event: Event = {
   name: Events.GuildCreate,

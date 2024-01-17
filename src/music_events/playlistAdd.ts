@@ -1,6 +1,6 @@
 import { Playlist, Queue } from "@jadestudios/discord-music-player";
-import { MyClient, PlayerEvent, QueueData } from "../type";
 import { TextChannel } from "discord.js";
+import { MyClient, PlayerEvent, QueueData } from "../type";
 
 export const event: PlayerEvent = {
   name: "playlistAdd",

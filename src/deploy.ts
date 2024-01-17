@@ -1,11 +1,15 @@
-import { REST, Routes } from "discord.js";
+import {
+  REST,
+  RESTPostAPIChatInputApplicationCommandsJSONBody,
+  Routes,
+} from "discord.js";
 import fs from "node:fs";
 import path from "node:path";
-import { slashCmd } from "./type";
+import { SlashCommand } from "./type";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
-const commands = [];
+const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
 const commandFolderPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(commandFolderPath);
 for (const folder of commandFolders) {
@@ -16,7 +20,7 @@ for (const folder of commandFolders) {
   for (const file of commandFiles) {
     const commandFilePath = path.join(commandSubFolderPath, file);
     const command = require(commandFilePath);
-    const slash: slashCmd = command.slash;
+    const slash: SlashCommand = command.slash;
     if (slash) {
       commands.push(slash.data.toJSON());
     }
