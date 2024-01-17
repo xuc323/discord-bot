@@ -1,7 +1,7 @@
 import { Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "math",
   description: "Perform math calculation. (+-*/%^)",
   args: true,
@@ -57,5 +57,3 @@ const basic: command = {
     }
   },
 };
-
-export { basic };

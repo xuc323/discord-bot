@@ -1,8 +1,8 @@
 import { DMPError } from "@jadestudios/discord-music-player";
 import { Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "volume",
   description: "Display or adjust the volume of the music.",
   aliases: ["v"],
@@ -57,5 +57,3 @@ const basic: command = {
     }
   },
 };
-
-export { basic };

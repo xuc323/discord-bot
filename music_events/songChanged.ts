@@ -1,12 +1,12 @@
 import { Queue, Song } from "@jadestudios/discord-music-player";
-import { MyClient, playerEvent, queueData } from "../type";
+import { MyClient, PlayerEvent, QueueData } from "../type";
 import { TextChannel } from "discord.js";
 
-const e: playerEvent = {
+export const event: PlayerEvent = {
   name: "songChanged",
   execute(
     client: MyClient,
-    queue: Queue<queueData>,
+    queue: Queue<QueueData>,
     newSong: Song,
     oldSong: Song
   ) {
@@ -15,5 +15,3 @@ const e: playerEvent = {
     );
   },
 };
-
-export = e;

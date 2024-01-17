@@ -1,7 +1,7 @@
 import { Events, Interaction } from "discord.js";
-import { event, MyClient } from "../type";
+import { Event, MyClient } from "../type";
 
-const e: event = {
+export const event: Event = {
   name: Events.InteractionCreate,
   execute(client: MyClient, interaction: Interaction) {
     if (!interaction.isChatInputCommand()) {
@@ -27,5 +27,3 @@ const e: event = {
     }
   },
 };
-
-export = e;

@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "recent",
   description:
     "(dev) Print the songs played previously. (Up to 25, default is 5)",
@@ -46,5 +46,3 @@ const basic: command = {
     //   });
   },
 };
-
-export { basic };

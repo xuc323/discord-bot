@@ -1,8 +1,8 @@
 import { GuildChannelResolvable, Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 import { DMPError } from "@jadestudios/discord-music-player";
 
-const basic: command = {
+export const basic: Command = {
   name: "play",
   description: "Play the music by name or url.",
   aliases: ["p"],
@@ -39,5 +39,3 @@ const basic: command = {
     }
   },
 };
-
-export { basic };

@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "user",
   description: "Display user info.",
   args: false,
@@ -27,5 +27,3 @@ const basic: command = {
     (message.channel as TextChannel).send({ embeds: [emb] });
   },
 };
-
-export { basic };

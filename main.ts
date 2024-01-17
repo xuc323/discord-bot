@@ -11,12 +11,11 @@ import path from "node:path";
 // import music player module
 import { Player } from "@jadestudios/discord-music-player";
 // import database module
-import Database from "./database";
+// import Database from "./database";
 // dotenv file
-import dotenv from "dotenv";
-dotenv.config({ path: ".env" });
+import "dotenv/config";
 
-import { command, event, MyClient, playerEvent, slashCmd } from "./type";
+import { Command, Event, MyClient, PlayerEvent, SlashCommand } from "./type";
 
 /**
  * START CREATING BOT CLIENT
@@ -49,9 +48,10 @@ for (const folder of commandFolders) {
   // loop through all .ts files
   for (const file of commandFiles) {
     const commandFilePath = path.join(commandSubFolderPath, file);
-    const command = require(commandFilePath);
-    const basic: command = command.basic;
-    const slash: slashCmd = command.slash;
+    const {
+      basic,
+      slash,
+    }: { basic: Command; slash: SlashCommand } = require(commandFilePath);
     client.commands.set(basic.name, basic);
     if (slash) {
       client.slashCommands.set(slash.data.name, slash);
@@ -66,7 +66,7 @@ const eventFiles = fs
   .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
 for (const file of eventFiles) {
   const eventFilePath = path.join(eventFolderPath, file);
-  const event: event = require(eventFilePath);
+  const { event }: { event: Event } = require(eventFilePath);
   if (event.once) {
     client.once(event.name, (...args) => event.execute(client, ...args));
   } else {
@@ -97,7 +97,7 @@ const musicEventFiles = fs
   .filter((file) => file.endsWith(".js") || file.endsWith(".ts"));
 for (const file of musicEventFiles) {
   const musicEventFilePath = path.join(musicEventFolderPath, file);
-  const event: playerEvent = require(musicEventFilePath);
+  const { event }: { event: PlayerEvent } = require(musicEventFilePath);
   client.player?.on(event.name, (...args) => event.execute(client, ...args));
 }
 /**
@@ -108,7 +108,7 @@ for (const file of musicEventFiles) {
  * START CREATING POSTGRES DATABASE CLIENT
  */
 // create an instance of database and attach to bot client
-client.postgres = new Database(process.env.DATABASE_URL);
+// client.postgres = new Database(process.env.DATABASE_URL);
 /**
  * END CREATING POSTGRES DATABASE CLIENT
  */

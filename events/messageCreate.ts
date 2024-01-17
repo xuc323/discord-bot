@@ -1,8 +1,8 @@
 import { Events, Message, TextChannel } from "discord.js";
-import { command, event, MyClient } from "../type";
+import { Command, Event, MyClient } from "../type";
 const prefix = process.env.PREFIX ?? "!";
 
-const e: event = {
+export const event: Event = {
   name: Events.MessageCreate,
   execute(client: MyClient, message: Message) {
     // bot will not respond to message without prefix "!" or message from itself
@@ -23,7 +23,7 @@ const e: event = {
     // search the command by looking for the command name and aliases
     const command =
       client.commands?.get(commandName) ||
-      client.commands?.find((cmd: command) => {
+      client.commands?.find((cmd: Command) => {
         if (cmd.aliases && cmd.aliases.includes(commandName)) {
           return true;
         }
@@ -57,5 +57,3 @@ const e: event = {
     }
   },
 };
-
-export = e;

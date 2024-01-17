@@ -1,12 +1,10 @@
 import { Events } from "discord.js";
-import { event, MyClient } from "../type";
+import { Event, MyClient } from "../type";
 
-const e: event = {
+export const event: Event = {
   name: Events.ClientReady,
   once: true,
   execute(client: MyClient) {
     console.log(`Bot is online! Logged in as ${client.user?.tag}!`);
   },
 };
-
-export = e;

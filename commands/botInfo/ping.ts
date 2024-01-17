@@ -4,9 +4,9 @@ import {
   SlashCommandBuilder,
   TextChannel,
 } from "discord.js";
-import { command, MyClient, slashCmd } from "../../type";
+import { Command, MyClient, SlashCommand } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "ping",
   description: "Return bot's latency in ms.",
   args: false,
@@ -25,7 +25,7 @@ const basic: command = {
   },
 };
 
-const slash: slashCmd = {
+export const slash: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName("ping")
     .setDescription("Returen latency in miliseconds."),
@@ -43,5 +43,3 @@ const slash: slashCmd = {
       .catch((err) => console.error(err));
   },
 };
-
-export { basic, slash };

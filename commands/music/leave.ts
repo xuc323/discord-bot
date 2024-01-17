@@ -1,8 +1,8 @@
 import { DMPError } from "@jadestudios/discord-music-player";
 import { Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "leave",
   description: "Leave the voice channel.",
   aliases: ["disconnect", "dis"],
@@ -37,5 +37,3 @@ const basic: command = {
     }
   },
 };
-
-export { basic };

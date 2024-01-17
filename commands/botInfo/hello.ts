@@ -5,9 +5,9 @@ import {
   SlashCommandBuilder,
   TextChannel,
 } from "discord.js";
-import { MyClient, command, slashCmd } from "../../type";
+import { MyClient, Command, SlashCommand } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "hello",
   description: "Hello!",
   args: false,
@@ -18,11 +18,9 @@ const basic: command = {
   },
 };
 
-const slash: slashCmd = {
+export const slash: SlashCommand = {
   data: new SlashCommandBuilder().setName("hello").setDescription("Hello!"),
   execute(interaction: CommandInteraction) {
     interaction.reply(`Hi, ${interaction.user.username}`);
   },
 };
-
-export { basic, slash };

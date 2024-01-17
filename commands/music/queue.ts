@@ -1,7 +1,7 @@
 import { EmbedBuilder, Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "queue",
   description: "List all songs in the queue. (Up to 25, default is 5)",
   aliases: ["q"],
@@ -59,5 +59,3 @@ const basic: command = {
     (message.channel as TextChannel).send({ embeds: [emb] });
   },
 };
-
-export { basic };

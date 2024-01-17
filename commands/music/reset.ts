@@ -1,8 +1,8 @@
 import { Message, TextChannel } from "discord.js";
 import { DMPError, RepeatMode } from "@jadestudios/discord-music-player";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "reset",
   description: "Reset to not looping.",
   args: false,
@@ -42,5 +42,3 @@ const basic: command = {
     }
   },
 };
-
-export { basic };

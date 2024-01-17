@@ -1,14 +1,12 @@
 import { Queue, Song } from "@jadestudios/discord-music-player";
-import { MyClient, playerEvent, queueData } from "../type";
+import { MyClient, PlayerEvent, QueueData } from "../type";
 import { TextChannel } from "discord.js";
 
-const e: playerEvent = {
+export const event: PlayerEvent = {
   name: "songFirst",
-  execute(client: MyClient, queue: Queue<queueData>, song: Song) {
+  execute(client: MyClient, queue: Queue<QueueData>, song: Song) {
     (queue.data?.msgChannel as TextChannel).send(
       `Started playing **${song}**.`
     );
   },
 };
-
-export = e;

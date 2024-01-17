@@ -1,7 +1,7 @@
-import { event, MyClient } from "../type";
+import { Event, MyClient } from "../type";
 import { Events, Guild } from "discord.js";
 
-const e: event = {
+export const event: Event = {
   name: Events.GuildCreate,
   execute(client: MyClient, guild: Guild) {
     guild.systemChannel?.send(
@@ -9,5 +9,3 @@ const e: event = {
     );
   },
 };
-
-export = e;

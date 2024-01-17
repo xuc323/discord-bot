@@ -1,7 +1,7 @@
 import { Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "uptime",
   description: "Display bot's uptime.",
   args: false,
@@ -42,5 +42,3 @@ const basic: command = {
     );
   },
 };
-
-export { basic };

@@ -5,9 +5,9 @@ import {
   SlashCommandBuilder,
   TextChannel,
 } from "discord.js";
-import { command, MyClient, slashCmd } from "../../type";
+import { Command, MyClient, SlashCommand } from "../../type";
 
-const basic: command = {
+export const basic: Command = {
   name: "server",
   description: "Display server info.",
   args: false,
@@ -30,7 +30,7 @@ const basic: command = {
   },
 };
 
-const slash: slashCmd = {
+export const slash: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName("server")
     .setDescription("Display server info."),
@@ -52,5 +52,3 @@ const slash: slashCmd = {
     interaction.reply({ embeds: [emb] });
   },
 };
-
-export { basic, slash };

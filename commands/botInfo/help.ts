@@ -1,8 +1,8 @@
 import { Message, TextChannel } from "discord.js";
-import { command, MyClient } from "../../type";
+import { Command, MyClient } from "../../type";
 const prefix = process.env.PREFIX ?? "!";
 
-const basic: command = {
+export const basic: Command = {
   name: "help",
   description: "List all commands or info about a specific command.",
   usage: "[command name]",
@@ -18,7 +18,7 @@ const basic: command = {
       data.push(
         commands
           ?.map(
-            (command: command) => `**${command.name}** ${command.description}`
+            (command: Command) => `**${command.name}** ${command.description}`
           )
           .join("\n")
       );
@@ -31,7 +31,7 @@ const basic: command = {
       // find if the command exists or the aliases exist
       const command =
         commands?.get(name) ||
-        commands?.find((c: command) => {
+        commands?.find((c: Command) => {
           if (c.aliases && c.aliases.includes(name)) {
             return true;
           }
@@ -67,5 +67,3 @@ const basic: command = {
     (message.channel as TextChannel).send(data.join("\n"));
   },
 };
-
-export { basic };
