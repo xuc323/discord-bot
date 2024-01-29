@@ -21,7 +21,7 @@
     "@discordjs/voice": "^0.16.1",
     "@jadestudios/discord-music-player": "^9.1.1-az26",
     "discord.js": "^14.14.1",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.1",
     "pg": "^8.11.3"
   },
   "devDependencies": {
