@@ -87,7 +87,7 @@ client.player = new Player(client, {
   leaveOnEnd: false,
   leaveOnStop: false,
   quality: "high",
-  timeout: 300,
+  timeout: 10 * 60 * 1000,
 });
 
 // register events
